@@ -1,5 +1,5 @@
-
-# Coming Soon!
+# Description
+Upload and view ANT-compatible fitness data.
 
 # Local Development
 ## Prerequisites
@@ -12,7 +12,7 @@ python localfit_fastapi/main.py --reload
 
 ## Activity
 - POST `/activities/` (upload activity file)
-- GET `/activities/<filename>/` (view metadata)  
+- GET `/activities/<filename>/` (view metadata)
 - PATCH `/activities/<filename>/` (edit metadata)
 - GET `/activities/<filename>/map/` (view map)
 - GET `/activities/<filename>/heartrate/` (view heart rate data)

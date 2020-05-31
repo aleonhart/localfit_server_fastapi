@@ -1,4 +1,10 @@
+# IDE
 .idea/
-.python-version
 __pycache__/
+
+# Pyenv
 venv/
+.python-version
+
+# SQLite
+localfit.db

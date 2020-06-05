@@ -1,6 +1,5 @@
 # Pydantic models
 
-from typing import List
 
 from pydantic import BaseModel
 
@@ -16,6 +15,13 @@ class ItemCreate(ItemBase):
 
 class Item(ItemBase):
     id: int
+
+    class Config:
+        orm_mode = True
+
+
+class Activity(BaseModel):
+    filename: str
 
     class Config:
         orm_mode = True

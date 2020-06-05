@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 # local
+from localfit.db.database import create_all
 from localfit.routes import router
 
 
@@ -12,6 +13,8 @@ def get_application() -> FastAPI:
     app.include_router(router)
     return app
 
+
+create_all()
 
 app = get_application()
 

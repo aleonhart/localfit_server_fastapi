@@ -41,24 +41,6 @@ def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return items
 
 
-# @app.get("/")
-# async def root():
-#     return {"message": "Hello World"}
-
-# @app.get("/")
-# async def main():
-#     content = """
-# <body>
-# <form action="/file/" enctype="multipart/form-data" method="post">
-# <input name="files" type="file">
-# <input type="submit">
-# </form>
-# </body>
-#     """
-#     return HTMLResponse(content=content)
-#
-#
-
 SPORT_TO_SERIALIZER = {
     (1, 0): "run",              # Run: generic
     (1, 1): "treadmill",        # Run: Treadmill
@@ -79,8 +61,9 @@ def _get_serializer_by_sport(fit_file):
     return serializer
 
 
-@router.post("/uploadfile/")
-async def create_upload_file(file: UploadFile = File(...)):
+@router.post("/uploadfile/", response_model=schemas.Activity)
+async def create_upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
     fit_file = FitFile(file.file)
     serializer = _get_serializer_by_sport(fit_file)
-    return {"filename": file.filename}
+    filename = file.filename.split(".")[0]
+    return crud.create_activity(db=db, activity={"filename": filename})

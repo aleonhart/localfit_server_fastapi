@@ -14,3 +14,11 @@ def create_item(db: Session, item: schemas.ItemCreate):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+
+def create_activity(db: Session, activity: schemas.Activity):  # does this need to be ActivityCreate ?
+    db_item = models.ActivityFile(**activity)
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+    return db_item

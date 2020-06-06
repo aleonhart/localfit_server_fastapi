@@ -1,7 +1,8 @@
 # Pydantic models
 
-
+from enum import Enum
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class ItemBase(BaseModel):
@@ -20,8 +21,22 @@ class Item(ItemBase):
         orm_mode = True
 
 
-class Activity(BaseModel):
+class ActivityTypeEnum(str, Enum):
+    yoga = "yoga"
+    walk = "walk"
+    run = "run"
+
+
+class ActivityFile(BaseModel):
     filename: str
+    activity_type: ActivityTypeEnum
+
+    class Config:
+        orm_mode = True
+
+
+class ActivitySession(BaseModel):
+    start_time_utc: datetime
 
     class Config:
         orm_mode = True

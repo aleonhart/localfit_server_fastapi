@@ -1,4 +1,5 @@
 # 3rd Party
+from datetime import datetime
 from fastapi import Depends, File, UploadFile
 from fastapi import APIRouter
 from fitparse import FitFile
@@ -61,9 +62,19 @@ def _get_serializer_by_sport(fit_file):
     return serializer
 
 
-@router.post("/uploadfile/", response_model=schemas.Activity)
+@router.post("/uploadfile/", response_model=schemas.ActivityFile)
 async def create_upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
     fit_file = FitFile(file.file)
     serializer = _get_serializer_by_sport(fit_file)
-    filename = file.filename.split(".")[0]
-    return crud.create_activity(db=db, activity={"filename": filename})
+    activity_file_data = {
+        "filename": file.filename.split(".")[0],
+        "activity_type": serializer,
+
+    }
+    activity_file = schemas.ActivityFile(**activity_file_data)
+
+    activity_session_data = {
+        "start_time_utc": datetime.utcnow(),
+    }
+    activity_session = schemas.ActivitySession(**activity_session_data)
+    return crud.create_activity(session=db, activity_file=activity_file, activity_session=activity_session)

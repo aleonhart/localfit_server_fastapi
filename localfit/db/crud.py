@@ -16,9 +16,15 @@ def create_item(db: Session, item: schemas.ItemCreate):
     return db_item
 
 
-def create_activity(db: Session, activity: schemas.Activity):  # does this need to be ActivityCreate ?
-    db_item = models.ActivityFile(**activity)
-    db.add(db_item)
-    db.commit()
-    db.refresh(db_item)
-    return db_item
+def create_activity(session: Session, activity_file: schemas.ActivityFile, activity_session: schemas.ActivitySession):
+    activity_file_obj = models.ActivityFile(**activity_file.dict())
+    session.add(activity_file_obj)
+    session.commit()
+    session.refresh(activity_file_obj)
+
+    activity_session_obj = models.ActivitySession(**activity_session.dict(), file_id=activity_file_obj.id)
+    session.add(activity_session_obj)
+    session.commit()
+    session.refresh(activity_session_obj)
+
+    return activity_file_obj

@@ -15,33 +15,6 @@ from localfit import schemas
 router = APIRouter()
 
 
-"""
-r = requests.post("http://127.0.0.1:8005/items/", json={"title": "Hello", "description": "My first FastAPI call"})
-
-r
-<Response [200]>
-
-r.json()
-{'title': 'Hello', 'description': 'My first FastAPI call', 'id': 1}
-"""
-@router.post("/items/", response_model=schemas.Item)
-def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db)):
-    return crud.create_item(db=db, item=item)
-
-
-"""
->>> r = requests.get("http://127.0.0.1:8005/items/")
->>> r
-<Response [200]>
->>> r.json()
-[{'title': 'Hello', 'description': 'My first FastAPI call', 'id': 1}]
-"""
-@router.get("/items/", response_model=List[schemas.Item])
-def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    items = crud.get_items(db, skip=skip, limit=limit)
-    return items
-
-
 SPORT_TO_SERIALIZER = {
     (1, 0): "run",              # Run: generic
     (1, 1): "treadmill",        # Run: Treadmill

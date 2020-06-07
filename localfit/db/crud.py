@@ -13,5 +13,9 @@ def create_activity(session: Session, activity_file: schemas.ActivityFile):
     return activity_file_obj
 
 
-def get_activities(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(ActivityFile).offset(skip).limit(limit).all()
+def get_activities_recent(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(ActivityFile).order_by(ActivityFile.start_time_utc.desc()).offset(skip).limit(limit).all()
+
+
+def get_activities_top(db: Session, skip: int = 0, limit: int = 10):
+    return db.query(ActivityFile).order_by(ActivityFile.total_distance.desc()).offset(skip).limit(limit).all()

@@ -7,6 +7,7 @@ from enum import Enum
 
 # 3rd Party
 from pydantic import BaseModel
+from typing import Optional
 
 
 class ItemBase(BaseModel):
@@ -51,18 +52,18 @@ class ActivitySession(BaseModel):
     start_time_utc: datetime
     total_elapsed_time: Decimal
     total_timer_time: Decimal
-    total_distance: Decimal
-    total_strides: int
-    total_cycles = int
-    total_calories = int
-    enhanced_avg_speed = Decimal
-    avg_speed = int
-    enhanced_max_speed = Decimal
-    max_speed = int
-    avg_power = int
-    max_power = int
-    total_ascent = int
-    total_descent = int
+    total_distance: Optional[Decimal]
+    total_strides: Optional[int]
+    total_cycles: Optional[int]
+    total_calories: Optional[int]
+    enhanced_avg_speed: Optional[Decimal]
+    avg_speed: Optional[int]
+    enhanced_max_speed: Optional[Decimal]
+    max_speed: Optional[int]
+    avg_power: Optional[int]
+    max_power: Optional[int]
+    total_ascent: Optional[int]
+    total_descent: Optional[int]
 
     class Config:
         orm_mode = True

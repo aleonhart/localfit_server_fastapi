@@ -14,15 +14,6 @@ class ActivityFile(Base):
     is_manually_entered = Column(Boolean, default=False)
     activity_collection = Column(String)
     start_time_utc = Column(DateTime, nullable=False)
-
-    activity_session = relationship("ActivitySession", back_populates="file")
-
-
-class ActivitySession(Base):
-    __tablename__ = "activity_session"
-    id = Column(Integer, primary_key=True)
-    file_id = Column(Integer, ForeignKey("activity_file.id"))
-    start_time_utc = Column(DateTime, nullable=False)
     total_elapsed_time = Column(Numeric(precision=10, scale=3))
     total_timer_time = Column(Numeric(precision=10, scale=3))
     total_distance = Column(Numeric(precision=8, scale=2))
@@ -43,8 +34,5 @@ class ActivitySession(Base):
     start_position_long_deg = Column(Numeric(precision=9, scale=6))
     start_location = Column(String)
 
-
     # avg_heart_rate = models.IntegerField(null=True)
     # max_heart_rate = models.IntegerField(null=True)
-
-    file = relationship("ActivityFile", back_populates="activity_session")

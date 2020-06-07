@@ -43,13 +43,6 @@ class ActivityFile(BaseModel):
     is_manually_entered: bool
     activity_collection: str
     start_time_utc: datetime
-
-    class Config:
-        orm_mode = True
-
-
-class ActivitySession(BaseModel):
-    start_time_utc: datetime
     total_elapsed_time: Decimal
     total_timer_time: Decimal
     total_distance: Optional[Decimal]

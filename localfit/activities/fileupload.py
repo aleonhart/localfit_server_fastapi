@@ -47,41 +47,33 @@ def _get_activity_session_data(fit_file):
     return formatted_session_data
 
 
-SPORT_TO_SERIALIZER = {
-    (1, 0): "run",              # Run: generic
-    (1, 1): "treadmill",        # Run: Treadmill
-    (4, 15): "elliptical",      # Fitness Equipment: Elliptical
-    (11, 0): "walk",            # walk
-    (10, 43): "yoga",           # yoga
-    (4, 16): "stair",   # Fitness Equipment: Stair Climbing
-    (10, 26): "cardio",  # Training: Cardio (Beat Saber)
-}
-
-
-def _get_serializer_by_sport(fit_file):
+def _get_activity_type(fit_file):
+    activity_type_map = {
+        (1, 0): "run",  # Run: generic
+        (1, 1): "treadmill",  # Run: Treadmill
+        (4, 15): "elliptical",  # Fitness Equipment: Elliptical
+        (11, 0): "walk",  # walk
+        (10, 43): "yoga",  # yoga
+        (4, 16): "stair",  # Fitness Equipment: Stair Climbing
+        (10, 26): "cardio",  # Training: Cardio (Beat Saber)
+    }
     sport_data = [r for r in fit_file.get_messages('sport') if r.type == 'data'][0]
     try:
-        serializer = SPORT_TO_SERIALIZER[(sport_data.get("sport").raw_value, sport_data.get("sub_sport").raw_value)]
+        activity_type = activity_type_map[(sport_data.get("sport").raw_value, sport_data.get("sub_sport").raw_value)]
     except KeyError:
         raise Exception({"file": "Unsupported sport"})
-    return serializer
+    return activity_type
 
 
 def get_activity_data(file):
     fit_file = FitFile(file.file)
-    serializer = _get_serializer_by_sport(fit_file)
-
-    activity_session_data = _get_activity_session_data(fit_file)
-    activity_session = schemas.ActivitySession(**activity_session_data)
-
-    activity_file_data = {
+    activity_data = _get_activity_session_data(fit_file)
+    activity_data.update({
         "filename": file.filename.split(".")[0],
-        "activity_type": serializer,
+        "activity_type": _get_activity_type(fit_file),
         "is_manually_entered": False,
         "activity_collection": "uncategorized",
-        "start_time_utc": activity_session.start_time_utc,
 
-    }
-    activity_file = schemas.ActivityFile(**activity_file_data)
+    })
 
-    return activity_file, activity_session
+    return schemas.ActivityFile(**activity_data)

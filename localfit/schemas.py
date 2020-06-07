@@ -64,6 +64,11 @@ class ActivitySession(BaseModel):
     max_power: Optional[int]
     total_ascent: Optional[int]
     total_descent: Optional[int]
+    start_position_lat_sem: Optional[int]
+    start_position_long_sem: Optional[int]
+    start_position_lat_deg: Optional[Decimal]
+    start_position_long_deg: Optional[Decimal]
+    start_location: Optional[str]
 
     class Config:
         orm_mode = True

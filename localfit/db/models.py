@@ -37,15 +37,11 @@ class ActivitySession(Base):
     max_power = Column(Integer)
     total_ascent = Column(Integer)
     total_descent = Column(Integer)
-
-    # start_position_lat_sem = models.IntegerField(null=True)
-    # start_position_long_sem = models.IntegerField(null=True)
-    # start_position_lat_deg = models.DecimalField(null=True, max_digits=8, decimal_places=6)
-    # start_position_long_deg = models.DecimalField(null=True, max_digits=9, decimal_places=6)
-    # start_location = models.CharField(null=True, max_length=200)
-
-
-
+    start_position_lat_sem = Column(Integer)
+    start_position_long_sem = Column(Integer)
+    start_position_lat_deg = Column(Numeric(precision=8, scale=6))
+    start_position_long_deg = Column(Numeric(precision=9, scale=6))
+    start_location = Column(String)
 
 
     # avg_heart_rate = models.IntegerField(null=True)

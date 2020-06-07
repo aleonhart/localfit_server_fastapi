@@ -1,8 +1,12 @@
 # Pydantic models
 
-from enum import Enum
-from pydantic import BaseModel
+# stdlib
 from datetime import datetime
+from decimal import Decimal
+from enum import Enum
+
+# 3rd Party
+from pydantic import BaseModel
 
 
 class ItemBase(BaseModel):
@@ -45,6 +49,20 @@ class ActivityFile(BaseModel):
 
 class ActivitySession(BaseModel):
     start_time_utc: datetime
+    total_elapsed_time: Decimal
+    total_timer_time: Decimal
+    total_distance: Decimal
+    total_strides: int
+    total_cycles = int
+    total_calories = int
+    enhanced_avg_speed = Decimal
+    avg_speed = int
+    enhanced_max_speed = Decimal
+    max_speed = int
+    avg_power = int
+    max_power = int
+    total_ascent = int
+    total_descent = int
 
     class Config:
         orm_mode = True

@@ -1,6 +1,6 @@
 # SQLAlchemy models
 
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 from localfit.db.database import Base
 
@@ -22,26 +22,32 @@ class ActivitySession(Base):
     __tablename__ = "activity_session"
     id = Column(Integer, primary_key=True)
     file_id = Column(Integer, ForeignKey("activity_file.id"))
-    start_time_utc = Column(DateTime)
+    start_time_utc = Column(DateTime, nullable=False)
+    total_elapsed_time = Column(Numeric(precision=10, scale=3))
+    total_timer_time = Column(Numeric(precision=10, scale=3))
+    total_distance = Column(Numeric(precision=8, scale=2))
+    total_strides = Column(Integer)
+    total_cycles = Column(Integer)
+    total_calories = Column(Integer)
+    enhanced_avg_speed = Column(Numeric(precision=5, scale=3))
+    avg_speed = Column(Integer)
+    enhanced_max_speed = Column(Numeric(precision=5, scale=3))
+    max_speed = Column(Integer)
+    avg_power = Column(Integer)
+    max_power = Column(Integer)
+    total_ascent = Column(Integer)
+    total_descent = Column(Integer)
+
     # start_position_lat_sem = models.IntegerField(null=True)
     # start_position_long_sem = models.IntegerField(null=True)
     # start_position_lat_deg = models.DecimalField(null=True, max_digits=8, decimal_places=6)
     # start_position_long_deg = models.DecimalField(null=True, max_digits=9, decimal_places=6)
     # start_location = models.CharField(null=True, max_length=200)
-    # total_elapsed_time = models.DecimalField(null=True, max_digits=10, decimal_places=3)
-    # total_timer_time = models.DecimalField(null=True, max_digits=10, decimal_places=3)
-    # total_distance = models.DecimalField(null=True, max_digits=8, decimal_places=2)
-    # total_strides = models.IntegerField(null=True)
-    # total_cycles = models.IntegerField(null=True)
-    # total_calories = models.IntegerField(null=True)
-    # enhanced_avg_speed = models.DecimalField(null=True, max_digits=5, decimal_places=3)
-    # avg_speed = models.IntegerField(null=True)
-    # enhanced_max_speed = models.DecimalField(null=True, max_digits=5, decimal_places=3)
-    # max_speed = models.IntegerField(null=True)
-    # avg_power = models.IntegerField(null=True)
-    # max_power = models.IntegerField(null=True)
-    # total_ascent = models.IntegerField(null=True)
-    # total_descent = models.IntegerField(null=True)
+
+
+
+
+
     # avg_heart_rate = models.IntegerField(null=True)
     # max_heart_rate = models.IntegerField(null=True)
 

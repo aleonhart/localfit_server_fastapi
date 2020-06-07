@@ -10,20 +10,18 @@ class ActivityFile(Base):
 
     id = Column(Integer, primary_key=True)
     filename = Column(String, unique=True)
+    activity_type = Column(String, nullable=False)
+    is_manually_entered = Column(Boolean, default=False)
+    activity_collection = Column(String)
+    start_time_utc = Column(DateTime, nullable=False)
+
     activity_session = relationship("ActivitySession", back_populates="file")
-    activity_type = Column(String)
-    # activity_category = Column(String)
-    # activity_collection = Column(String)
-    # start_time_utc = Column(DateTime)
-    # primary_file = Column(Boolean, default=True)
-    # secondary_activity = models.ForeignKey('self', null=True, on_delete=models.CASCADE)
 
 
 class ActivitySession(Base):
     __tablename__ = "activity_session"
     id = Column(Integer, primary_key=True)
     file_id = Column(Integer, ForeignKey("activity_file.id"))
-    file = relationship("ActivityFile", back_populates="activity_session")
     start_time_utc = Column(DateTime)
     # start_position_lat_sem = models.IntegerField(null=True)
     # start_position_long_sem = models.IntegerField(null=True)
@@ -46,3 +44,5 @@ class ActivitySession(Base):
     # total_descent = models.IntegerField(null=True)
     # avg_heart_rate = models.IntegerField(null=True)
     # max_heart_rate = models.IntegerField(null=True)
+
+    file = relationship("ActivityFile", back_populates="activity_session")

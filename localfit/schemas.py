@@ -25,11 +25,19 @@ class ActivityTypeEnum(str, Enum):
     yoga = "yoga"
     walk = "walk"
     run = "run"
+    treadmill = "treadmill"
+    stairmaster = "stairmaster"
+    beat_saber = "beat_saber"
+    cardio = "cardio"
+    elliptical = "elliptical"
 
 
 class ActivityFile(BaseModel):
     filename: str
     activity_type: ActivityTypeEnum
+    is_manually_entered: bool
+    activity_collection: str
+    start_time_utc: datetime
 
     class Config:
         orm_mode = True

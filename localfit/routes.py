@@ -39,15 +39,20 @@ def _get_serializer_by_sport(fit_file):
 async def create_upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
     fit_file = FitFile(file.file)
     serializer = _get_serializer_by_sport(fit_file)
+
+    now = datetime.utcnow()
     activity_file_data = {
         "filename": file.filename.split(".")[0],
         "activity_type": serializer,
+        "is_manually_entered": False,
+        "activity_collection": "uncategorized",
+        "start_time_utc": now,
 
     }
     activity_file = schemas.ActivityFile(**activity_file_data)
 
     activity_session_data = {
-        "start_time_utc": datetime.utcnow(),
+        "start_time_utc": now,
     }
     activity_session = schemas.ActivitySession(**activity_session_data)
     return crud.create_activity(session=db, activity_file=activity_file, activity_session=activity_session)

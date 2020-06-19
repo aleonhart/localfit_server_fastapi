@@ -8,7 +8,7 @@ from typing import List
 from localfit.db import crud
 from localfit.db.database import get_db
 from localfit import schemas
-from localfit.activities.fileupload import get_activity_data
+from localfit.activities.formatters.retrieval import get_activity_data
 
 
 router = APIRouter()

@@ -1,10 +1,10 @@
 # 3rd Party
 from fitparse import FitFile
-import pytz
 
 # local
 from localfit import schemas
-from localfit.utilities import convert_semicircles_to_degrees, convert_lat_long_to_location_name
+from localfit.utilities import convert_semicircles_to_degrees, convert_lat_long_to_location_name, \
+    localize_datetime_to_utc_for_storage
 
 
 def _get_activity_session_gps_data(session_data):
@@ -23,7 +23,7 @@ def _get_activity_session_gps_data(session_data):
 def _get_activity_session_data(fit_file):
     session_data = [row for row in fit_file.get_messages('session')][0]
     formatted_session_data = {
-        'start_time_utc': pytz.utc.localize(session_data.get('start_time').value),
+        'start_time_utc': localize_datetime_to_utc_for_storage(session_data.get('start_time').value),
         'total_elapsed_time': session_data.get('total_elapsed_time').value,
         'total_timer_time': session_data.get('total_timer_time').value,
         'total_distance': session_data.get('total_distance').value,
@@ -77,3 +77,4 @@ def get_activity_data(file):
     })
 
     return schemas.ActivityFile(**activity_data)
+

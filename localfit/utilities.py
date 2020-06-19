@@ -1,5 +1,9 @@
+# stdlib
+from datetime import datetime
+
 # 3rd Party
 from geopy.geocoders import Nominatim
+import pytz
 
 
 def convert_semicircles_to_degrees(semicircles):
@@ -47,3 +51,24 @@ def convert_lat_long_to_location_name(lat, long):
     except Exception:
         full_address = 'Unknown'
     return full_address
+
+
+def localize_datetime_to_utc_for_storage(datetime):
+    return pytz.utc.localize(datetime)
+
+
+def localize_datetime_for_display(dt_unaware, tz='America/Los_Angeles'):
+    timezone_to_localize_from = pytz.utc
+    timezone_to_localize_to = pytz.timezone(tz)
+
+    dt_utc = dt_unaware.replace(tzinfo=timezone_to_localize_from)
+    return dt_utc.replace(tzinfo=timezone_to_localize_from).astimezone(tz=timezone_to_localize_to)
+
+
+def format_datetime_for_display(dt):
+    """
+    Format:
+    04:10PM, Monday, December 30, 2019
+    """
+    return dt.strftime("%A, %B %d, %Y, %I:%M %p")
+

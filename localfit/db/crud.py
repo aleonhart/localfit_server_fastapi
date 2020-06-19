@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, Query
 
 from localfit.db.models import ActivityFile
 from localfit import schemas
@@ -15,6 +15,10 @@ def create_activity(session: Session, activity_file: schemas.ActivityFile):
 
 def get_activities_recent(db: Session, skip: int = 0, limit: int = 100):
     return db.query(ActivityFile).order_by(ActivityFile.start_time_utc.desc()).offset(skip).limit(limit).all()
+
+
+def get_activity_by_filename(db: Session, filename: str):
+    return db.query(ActivityFile).filter_by(filename=filename).one()
 
 
 def get_activities_top(db: Session, skip: int = 0, limit: int = 10):

@@ -48,7 +48,26 @@ const submitForm = (contentType, data) => {
     submitForm("multipart/form-data", formData);
   };
 ```
-- GET `/activities/<filename>/` (view metadata)
+### View an Activity's Metadata
+- GET `/activities/<filename>/`
+```python
+import requests
+r = requests.get("http://127.0.0.1:8005/activities/AAABBB11/")
+
+r
+<Response [200]>
+
+r.json()
+{
+    'activity_type': 'run',
+    'start_time_utc': 'Monday, June 01, 2020, 01:15 PM',
+    'activity_collection': 'uncategorized',
+    'total_elapsed_time': 555.444,
+    'total_distance': 1111.11,
+    'total_calories': 100,
+    'start_location': 'Empire State Building, New York, NY'
+}
+```
 - PATCH `/activities/<filename>/` (edit metadata)
 - GET `/activities/<filename>/map/` (view map)
 - GET `/activities/<filename>/heartrate/` (view heart rate data)
@@ -93,6 +112,8 @@ r.json()
     }
 ]
 ```
+
+
 - GET `/activities/top/`
 
 ## Step Data

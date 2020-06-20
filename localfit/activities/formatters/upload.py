@@ -1,10 +1,46 @@
-# 3rd Party
-from fitparse import FitFile
-
 # local
 from localfit import schemas
 from localfit.utilities import convert_semicircles_to_degrees, convert_lat_long_to_location_name, \
     localize_datetime_to_utc_for_storage
+
+
+RECORD_FIELDS = [
+    'distance',
+    'altitude',
+    'speed',
+    'heart_rate',
+    'cadence',
+    'fractional_cadence',
+    'enhanced_altitude',
+    'enhanced_speed'
+]
+
+
+RECORD_FIELDS_TIME = [
+    'timestamp'
+]
+
+
+RECORD_FIELDS_GPS = [
+    'position_lat',
+    'position_long'
+]
+
+
+def get_activity_record_data(fit_file):
+    records = []
+    for row in fit_file.get_messages('record'):
+        record = {}
+        for field in row:
+            if field.name in RECORD_FIELDS:
+                record[field.name] = field.value
+            if field.name in RECORD_FIELDS_TIME:
+                record[f'{field.name}_utc'] = localize_datetime_to_utc_for_storage(field.value)
+            if field.name in RECORD_FIELDS_GPS:
+                record[f'{field.name}_sem'] = field.value
+                record[f'{field.name}_deg'] = convert_semicircles_to_degrees(field.value)
+        records.append(record)
+    return records
 
 
 def _get_activity_session_gps_data(session_data):
@@ -65,8 +101,7 @@ def _get_activity_type(fit_file):
     return activity_type
 
 
-def get_activity_data(file):
-    fit_file = FitFile(file.file)
+def get_activity_data(file, fit_file):
     activity_data = _get_activity_session_data(fit_file)
     activity_data.update({
         "filename": file.filename.split(".")[0],

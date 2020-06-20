@@ -1,15 +1,28 @@
+# stdlib
+from typing import List
+
+# 3rd Party
 from sqlalchemy.orm import Session, Query
 
-from localfit.db.models import ActivityFile
+# local
+from localfit.db.models import ActivityFile, ActivityRecord
 from localfit import schemas
 
 
-def create_activity(session: Session, activity_file: schemas.ActivityFile):
+def create_activity(session: Session, activity_file: schemas.ActivityFile, activity_records=List[schemas.ActivityRecord]):
     activity_file_obj = ActivityFile(**activity_file.dict())
     session.add(activity_file_obj)
+    session.flush()  # get the id for the file object pre-save
+
+    activity_records_objs = []
+    for activity_record in activity_records:
+        activity_record.update(file_id=activity_file_obj.id)
+        activity_record_obj = ActivityRecord(**activity_record)
+        activity_records_objs.append(activity_record_obj)
+
+    session.bulk_save_objects(activity_records_objs)
     session.commit()
     session.refresh(activity_file_obj)
-
     return activity_file_obj
 
 

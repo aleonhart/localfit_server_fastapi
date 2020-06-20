@@ -10,22 +10,6 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class ItemBase(BaseModel):
-    title: str
-    description: str = None
-
-
-class ItemCreate(ItemBase):
-    pass
-
-
-class Item(ItemBase):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-
 class ActivityTypeEnum(str, Enum):
     yoga = "yoga"
     walk = "walk"
@@ -65,3 +49,21 @@ class ActivityFile(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class ActivityRecord(BaseModel):
+    file_id: int
+    timestamp_utc: datetime
+    heart_rate: Optional[int]
+    position_lat_sem: Optional[int]
+    position_long_sem: Optional[int]
+    position_lat_deg: Optional[Decimal]
+    position_long_deg: Optional[Decimal]
+    distance: Optional[Decimal]
+    altitude: Optional[Decimal]
+    speed: Optional[int]
+    cadence: Optional[int]
+    fractional_cadence: Optional[Decimal]
+    enhanced_altitude: Optional[Decimal]
+    enhanced_speed: Optional[Decimal]
+

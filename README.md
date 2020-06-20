@@ -69,7 +69,28 @@ r.json()
 }
 ```
 - PATCH `/activities/<filename>/` (edit metadata)
-- GET `/activities/<filename>/map/` (view map)
+
+## View Activity GPS Data
+- GET `/activities/<filename>/map/`
+```python
+import requests
+r = requests.get("http://127.0.0.1:8005/activities/AAABBB11/map/")
+
+r
+<Response [200]>
+
+r.json()
+{
+    'activitydata': [
+        {'lat': 40.748400, 'lng': 73.985700},
+        {'lat': 40.748401, 'lng': 73.985701},
+        {'lat': 40.748402, 'lng': 73.985702},
+        {'lat': 40.748403, 'lng': 73.985703}
+    ],
+    'midpoint_lat_deg': 40.748402,
+    'midpoint_long_deg': 73.985702
+}
+```
 - GET `/activities/<filename>/heartrate/` (view heart rate data)
 
 ### View All Activities

@@ -5,12 +5,14 @@ import uvicorn
 
 # local
 from localfit.db.database import create_all
-from localfit.routes.activities import router
+from localfit.routes.activities import activities_router
+from localfit.routes.activity import activity_router
 
 
 def get_application() -> FastAPI:
     app = FastAPI()
-    app.include_router(router)
+    app.include_router(activities_router)
+    app.include_router(activity_router)
     return app
 
 
@@ -30,8 +32,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
 
 
 if __name__ == "__main__":

@@ -2,17 +2,17 @@
 from typing import List
 
 # 3rd Party
-from sqlalchemy.orm import Session, Query
+from sqlalchemy.orm import Session
 
 # local
 from localfit.db.models import ActivityFile, ActivityRecord
 from localfit import schemas
 
 
-def create_activity(session: Session, activity_file: schemas.ActivityFile, activity_records=List[schemas.ActivityRecord]):
+def create_activity(db: Session, activity_file: schemas.ActivityFile, activity_records=List[schemas.ActivityRecord]):
     activity_file_obj = ActivityFile(**activity_file.dict())
-    session.add(activity_file_obj)
-    session.flush()  # get the id for the file object pre-save
+    db.add(activity_file_obj)
+    db.flush()  # get the id for the file object pre-save
 
     activity_records_objs = []
     for activity_record in activity_records:
@@ -20,9 +20,18 @@ def create_activity(session: Session, activity_file: schemas.ActivityFile, activ
         activity_record_obj = ActivityRecord(**activity_record)
         activity_records_objs.append(activity_record_obj)
 
-    session.bulk_save_objects(activity_records_objs)
-    session.commit()
-    session.refresh(activity_file_obj)
+    db.bulk_save_objects(activity_records_objs)
+    db.commit()
+    db.refresh(activity_file_obj)
+    return activity_file_obj
+
+
+def update_activity(db: Session, filename: str, activity_file: schemas.ActivityFilePatch):
+    activity_file_obj = db.query(ActivityFile).filter_by(filename=filename).one()
+    for key, value in activity_file.dict().items():
+        setattr(activity_file_obj, key, value)
+    db.add(activity_file_obj)
+    db.commit()
     return activity_file_obj
 
 

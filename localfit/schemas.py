@@ -51,6 +51,20 @@ class ActivityFile(BaseModel):
         orm_mode = True
 
 
+class ActivityCollectionEnum(str, Enum):
+    la_hikes = "la_hikes"
+    neighborhood_runs = "neighborhood_runs"
+    la_road_runners = "la_road_runners"
+    oregon_hikes = "oregon_hikes"
+
+
+class ActivityFilePatch(BaseModel):
+    activity_collection: Optional[ActivityCollectionEnum]
+
+    class Config:
+        orm_mode = True
+
+
 class ActivityRecord(BaseModel):
     file_id: int
     timestamp_utc: datetime

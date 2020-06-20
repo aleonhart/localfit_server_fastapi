@@ -1,5 +1,6 @@
 # local
 from localfit import schemas
+from localfit.db.crud import update_activity
 from localfit.utilities import convert_semicircles_to_degrees, convert_lat_long_to_location_name, \
     localize_datetime_to_utc_for_storage
 
@@ -25,6 +26,10 @@ RECORD_FIELDS_GPS = [
     'position_lat',
     'position_long'
 ]
+
+
+def update_activity_metadata(db, filename, activity_file):
+    return update_activity(db, filename, activity_file)
 
 
 def get_activity_record_data(fit_file):

@@ -68,7 +68,19 @@ r.json()
     'start_location': 'Empire State Building, New York, NY'
 }
 ```
-- PATCH `/activities/<filename>/` (edit metadata)
+
+## Update an Activity's Metadata
+- PATCH `/activities/<filename>/`
+```python
+import requests
+r = requests.patch("http://127.0.0.1:8005/activities/AAABBB11/", json={"activity_collection": "neighborhood_runs"})
+
+r
+<Response [200]>
+
+r.json()
+{}
+```
 
 ## View Activity GPS Data
 - GET `/activities/<filename>/map/`

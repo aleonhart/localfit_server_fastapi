@@ -34,5 +34,14 @@ def get_activity_by_filename(db: Session, filename: str):
     return db.query(ActivityFile).filter_by(filename=filename).one()
 
 
+def get_activity_records_by_filename(db: Session, filename: str):
+    return [
+        {
+            "lat": r.position_lat_deg,
+            "lng": r.position_long_deg
+        } for r in db.query(ActivityRecord).join(ActivityFile).filter(ActivityFile.filename == filename).all()
+    ]
+
+
 def get_activities_top(db: Session, skip: int = 0, limit: int = 10):
     return db.query(ActivityFile).order_by(ActivityFile.total_distance.desc()).offset(skip).limit(limit).all()

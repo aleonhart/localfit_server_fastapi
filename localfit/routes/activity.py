@@ -21,8 +21,9 @@ activity_router = APIRouter()
 Functions supporting singular operations on the /activities/ API
 """
 
+
 @activity_router.post("/activities/", response_model=schemas.ActivityFile)
-async def create_upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def upload_activity_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
     fit_file = FitFile(file.file)
     activity_file = get_activity_data(file, fit_file)
     activity_records = get_activity_record_data(fit_file)
@@ -30,5 +31,10 @@ async def create_upload_file(file: UploadFile = File(...), db: Session = Depends
 
 
 @activity_router.get("/activities/{filename}/")
-async def read_items(filename: str = Path(..., title="The filename of a single activity"), db: Session = Depends(get_db)):
+async def get_activity_metadata(filename: str = Path(..., title="The filename of a single activity"), db: Session = Depends(get_db)):
+    return get_activity_metadata_by_filename(db, filename)
+
+
+@activity_router.get("/activities/{filename}/map/")
+async def get_activity_map(filename: str = Path(..., title="The filename of a single activity"), db: Session = Depends(get_db)):
     return get_activity_metadata_by_filename(db, filename)

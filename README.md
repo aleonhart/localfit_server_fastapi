@@ -15,16 +15,25 @@ python localfit_fastapi/main.py --reload
 http://127.0.0.1:8005 
 
 # API Contract
+## Single Activity
 - [Upload a Single Activity](#upload-a-single-activity)
 - [View Single Activity Metadata](#view-single-activity-metadata)
 - [Update Single Activity Metadata](#update-single-activity-metadata)
 - [View Single Activity GPS Data](#view-single-activity-gps-data)
+- View Single Activity Heart Rate Data
+
+## Activities
 - [View All Activities](#view-all-activities)
 - [View Top Activities by Distance](#view-top-activities-by-distance)
 - [View Activities Subset by Collection](#view-activities-subset-by-collection)
 
+## Monitor Data
+Coming Soon!
+- Steps
+- Stress
+- Heart Rate
 
-## Activities
+## Single Activity
 ### Upload a Single Activity
 POST `/activities/`
 ```javascript
@@ -114,6 +123,7 @@ r.json()
 ```
 - GET `/activities/<filename>/heartrate/` (view heart rate data)
 
+## Activities
 ### View All Activities
 - GET `/activities/`
 ```python

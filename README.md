@@ -17,6 +17,12 @@ http://127.0.0.1:8005
 # API Contract
 - [Upload a Single Activity](#upload-a-single-activity)
 - [View Single Activity Metadata](#view-single-activity-metadata)
+- [Update Single Activity Metadata](#update-single-activity-metadata)
+- [View Single Activity GPS Data](#view-single-activity-gps-data)
+- [View All Activities](#view-all-activities)
+- [View Top Activities by Distance](#view-top-activities-by-distance)
+- [View Activities Subset by Collection](#view-activities-subset-by-collection)
+
 
 ## Activities
 ### Upload a Single Activity
@@ -72,7 +78,7 @@ r.json()
 }
 ```
 
-## Update an Activity's Metadata
+## Update Single Activity Metadata
 - PATCH `/activities/<filename>/`
 ```python
 import requests
@@ -85,7 +91,7 @@ r.json()
 {}
 ```
 
-## View Activity GPS Data
+## View Single Activity GPS Data
 - GET `/activities/<filename>/map/`
 ```python
 import requests

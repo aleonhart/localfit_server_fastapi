@@ -2,7 +2,7 @@
 import pytz
 
 # local
-from localfit.db.crud import get_activity_by_filename, get_activity_records_by_filename
+from localfit.db.crud import get_activity_by_filename, get_activity_records_by_filename, get_activity_maps_by_collection
 from localfit.utilities import localize_datetime_for_display, format_datetime_for_display, calculate_geographic_midpoint
 
 
@@ -36,4 +36,23 @@ def get_activity_map_by_filename(db, filename):
         'activitydata': records,
         'midpoint_lat_deg': midpoint_lat_deg,
         'midpoint_long_deg': midpoint_long_deg
+    }
+
+
+def format_activity_maps_by_collection(db, collection_name, skip, limit):
+    maps = get_activity_maps_by_collection(db, collection_name=collection_name, skip=skip, limit=limit)
+
+    total_coordinates = []
+    activities = []
+    for map in maps:
+        gps_coordinates = list(filter((None).__ne__, map))
+        total_coordinates = total_coordinates + gps_coordinates
+        activities.append(gps_coordinates)
+
+    # find geographic midpoint across all activities to display
+    midpoint_lat_deg, midpoint_long_deg = calculate_geographic_midpoint(total_coordinates)
+    return {
+        "midpoint_lat_deg": midpoint_lat_deg,
+        "midpoint_long_deg": midpoint_long_deg,
+        "activities": activities
     }

@@ -54,3 +54,20 @@ def get_activity_records_by_filename(db: Session, filename: str):
 
 def get_activities_top(db: Session, skip: int = 0, limit: int = 10):
     return db.query(ActivityFile).order_by(ActivityFile.total_distance.desc()).offset(skip).limit(limit).all()
+
+
+def get_activity_maps_by_collection(db: Session, collection_name: schemas.ActivityCollectionEnum,
+                                 skip: int = 0, limit: int = 1000):
+
+    maps = []
+    files = db.query(ActivityFile).filter_by(activity_collection=collection_name).offset(skip).limit(limit).all()
+
+    for file in files:
+        records = [
+            {
+                "lat": record.position_lat_deg,
+                "lng": record.position_long_deg
+            } for record in db.query(ActivityRecord).filter(ActivityRecord.file == file).all()
+        ]
+        maps.append(records)
+    return maps

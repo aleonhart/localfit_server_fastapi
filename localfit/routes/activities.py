@@ -2,14 +2,14 @@
 from typing import List
 
 # 3rd Party
-from fastapi import Depends
-from fastapi import APIRouter
+from fastapi import Depends, APIRouter, Path
 from sqlalchemy.orm import Session
 
 # local
 from localfit.db import crud
 from localfit.db.database import get_db
 from localfit import schemas
+from localfit.activities.formatters.retrieval import format_activity_maps_by_collection
 
 
 activities_router = APIRouter()
@@ -22,11 +22,15 @@ Functions supporting bulk operations on the /activities/ API
 
 @activities_router.get("/activities/", response_model=List[schemas.ActivityFile])
 def get_activities_recent(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    items = crud.get_activities_recent(db, skip=skip, limit=limit)
-    return items
+    return crud.get_activities_recent(db, skip=skip, limit=limit)
 
 
 @activities_router.get("/activities/top/", response_model=List[schemas.ActivityFile])
 def get_activities_top(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    items = crud.get_activities_top(db, skip=skip, limit=limit)
-    return items
+    return crud.get_activities_top(db, skip=skip, limit=limit)
+
+
+@activities_router.get("/activities/collection/{collection_name}/")
+def get_activity_collection(collection_name: str = Path(..., title="The name of the collection of activities"),
+                       skip: int = 0, limit: int = 1000, db: Session = Depends(get_db)):
+    return format_activity_maps_by_collection(db, collection_name=collection_name, skip=skip, limit=limit)

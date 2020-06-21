@@ -15,9 +15,11 @@ python localfit_fastapi/main.py --reload
 http://127.0.0.1:8005 
 
 # API Contract
+- [Upload a Single Activity](#upload-a-single-activity)
+- [View Single Activity Metadata](#view-single-activity-metadata)
 
 ## Activities
-### Upload an Activity
+### Upload a Single Activity
 POST `/activities/`
 ```javascript
 const submitForm = (contentType, data) => {
@@ -49,7 +51,7 @@ const submitForm = (contentType, data) => {
   };
 ```
 
-### View an Activity's Metadata
+### View Single Activity Metadata
 - GET `/activities/<filename>/`
 ```python
 import requests
@@ -188,8 +190,8 @@ r.json()
 ]
 ```
 
-### View Activities Subset by Category
-- GET `/activities/collection/<category_name>/`
+### View Activities Subset by Collection
+- GET `/activities/collection/<collection_name>/`
 ```python
 import requests
 r = requests.get("http://127.0.0.1:8005/activities/collection/neighborhood_runs/")

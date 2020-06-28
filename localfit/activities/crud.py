@@ -5,7 +5,7 @@ from typing import List
 from sqlalchemy.orm import Session
 
 # local
-from localfit.db.models import ActivityFile, ActivityRecord
+from localfit.activities.models import ActivityFile, ActivityRecord
 from localfit import schemas
 
 

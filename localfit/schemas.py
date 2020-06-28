@@ -19,6 +19,7 @@ class ActivityTypeEnum(str, Enum):
     beat_saber = "beat_saber"
     cardio = "cardio"
     elliptical = "elliptical"
+    stair = "stair"
 
 
 class ActivityFile(BaseModel):
@@ -60,6 +61,22 @@ class ActivityCollectionEnum(str, Enum):
 
 class ActivityFilePatch(BaseModel):
     activity_collection: Optional[ActivityCollectionEnum]
+
+    class Config:
+        orm_mode = True
+
+
+class ActivityListDisplay(BaseModel):
+    filename: str
+    activity_type: ActivityTypeEnum
+    is_manually_entered: bool
+    activity_collection: str
+    start_time_utc: datetime
+    total_elapsed_time: str
+    total_timer_time: Decimal
+    total_distance: Optional[Decimal]
+    total_calories: Optional[int]
+    start_location: Optional[str]
 
     class Config:
         orm_mode = True

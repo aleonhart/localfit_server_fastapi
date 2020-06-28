@@ -28,60 +28,8 @@ http://127.0.0.1:8005
 - [View Activities Subset by Collection](#view-activities-subset-by-collection)
 
 ## Steps
-### View Steps by Day
-- GET `/monitor/steps/?start_date={start_date}&end_date={end_date}`
-```python
-import requests
-r = requests.get("http://127.0.0.1:8005/monitor/steps/?start_date=2020-06-01&end_date=2020-06-30")
-
-r
-<Response [200]>
-
-r.json()
-{
-    'start_date': '2020-06-01',
-    'end_date': '2020-06-30',
-    'steps': [
-        {
-            't': '2020-06-01',
-            'y': 10000
-        },
-        ...
-        {
-            't': '2020-06-30',
-            'y': 5000
-        },
-    ]
-}
-```
-### View Step Goal Achievement by Month
-- GET `/monitor/steps/goal/?year={year}&month={month}`
-Without query parameters, it will default to the current month and year.
-```python
-import requests
-r = requests.get("http://127.0.0.1:8005/monitor/steps/goal/")
-r
-<Response [200]>
-
-r.json()
-{'monthly_step_goal_percent_completed': 0.55}
-```
-With query paramters, it will use the month and year provided.
-```python
-r = requests.get("http://127.0.0.1:8005/monitor/steps/goal/?year=2020&month=6")
-
-r
-<Response [200]>
-
-r.json()
-{'monthly_step_goal_percent_completed': 0.77}
-```
-
-Coming Soon!
-- Steps
-- Step Goal
-- Stress
-- Heart Rate
+- [View Steps by Day](#view-steps-by-day)
+- [View Step Goal Achievement by Month](#view-step-goal-achievement-by-month)
 
 ## Single Activity
 ### Upload a Single Activity
@@ -286,10 +234,56 @@ r.json()
 }
 ```
 
+## Steps
+### View Steps by Day
+- GET `/monitor/steps/?start_date={start_date}&end_date={end_date}`
+```python
+import requests
+r = requests.get("http://127.0.0.1:8005/monitor/steps/?start_date=2020-06-01&end_date=2020-06-30")
 
-## Step Data
-- GET `/steps/?start_date=`
+r
+<Response [200]>
 
-## Stress Data
+r.json()
+{
+    'start_date': '2020-06-01',
+    'end_date': '2020-06-30',
+    'steps': [
+        {
+            't': '2020-06-01',
+            'y': 10000
+        },
+        ...
+        {
+            't': '2020-06-30',
+            'y': 5000
+        },
+    ]
+}
+```
+### View Step Goal Achievement by Month
+- GET `/monitor/steps/goal/?year={year}&month={month}`
+Without query parameters, it will default to the current month and year.
+```python
+import requests
+r = requests.get("http://127.0.0.1:8005/monitor/steps/goal/")
+r
+<Response [200]>
 
-## Heart Rate Data
+r.json()
+{'monthly_step_goal_percent_completed': 0.55}
+```
+With query paramters, it will use the month and year provided.
+```python
+r = requests.get("http://127.0.0.1:8005/monitor/steps/goal/?year=2020&month=6")
+
+r
+<Response [200]>
+
+r.json()
+{'monthly_step_goal_percent_completed': 0.77}
+```
+
+Coming Soon!
+- Stress
+- Heart Rate

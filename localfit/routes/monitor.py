@@ -25,14 +25,14 @@ async def upload_monitor_file(file: UploadFile = File(...), db: Session = Depend
     fit_file = FitFile(file.file)
     monitor_file = schemas.MonitorFile(filename=file.filename.split(".")[0])
 
-    heart_rate_data = upload.parse_heart_rate_data_from_monitor_file(fit_file)
-    metabolic_rate_data = upload.parse_heart_metabolic_rate_from_monitor_file(fit_file)
-    #step_data = upload.parse_step_data_from_monitor_file(db, fit_file)
-    stress_data = upload.parse_stress_data_from_monitor_file(fit_file)
+    heart_rate_data_list = upload.parse_heart_rate_data_from_monitor_file(fit_file)
+    metabolic_rate_data_list = upload.parse_heart_metabolic_rate_from_monitor_file(fit_file)
+    step_data = upload.parse_step_data_from_monitor_file(fit_file)
+    stress_data_list = upload.parse_stress_data_from_monitor_file(fit_file)
 
     return crud.create_monitor_data(db=db,
                                     monitor_file=monitor_file,
-                                    heart_rate_data=heart_rate_data,
-                                    metabolic_rate_data=metabolic_rate_data,
-                                    #step_data=step_data,
-                                    stress_data=stress_data)
+                                    heart_rate_data_list=heart_rate_data_list,
+                                    metabolic_rate_data_list=metabolic_rate_data_list,
+                                    step_data=step_data,
+                                    stress_data_list=stress_data_list)

@@ -55,8 +55,27 @@ r.json()
 }
 ```
 ### View Step Goal Achievement by Month
-- GET `/monitor/steps/goal/?year=${year}&month=${month}`
+- GET `/monitor/steps/goal/?year={year}&month={month}`
+Without query parameters, it will default to the current month and year.
+```python
+import requests
+r = requests.get("http://127.0.0.1:8005/monitor/steps/goal/")
+r
+<Response [200]>
 
+r.json()
+{'monthly_step_goal_percent_completed': 0.55}
+```
+With query paramters, it will use the month and year provided.
+```python
+r = requests.get("http://127.0.0.1:8005/monitor/steps/goal/?year=2020&month=6")
+
+r
+<Response [200]>
+
+r.json()
+{'monthly_step_goal_percent_completed': 0.77}
+```
 
 Coming Soon!
 - Steps

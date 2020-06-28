@@ -5,8 +5,8 @@ import uvicorn
 
 # local
 from localfit.db.database import create_all
-from localfit.routes.activities import activities_router
-from localfit.routes.activity import activity_router
+from localfit.activities.routes.activities import activities_router
+from localfit.activities.routes.activity import activity_router
 from localfit.monitor.routes import monitor_router
 
 

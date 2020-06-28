@@ -22,6 +22,13 @@ class ActivityTypeEnum(str, Enum):
     stair = "stair"
 
 
+class ActivityCollectionEnum(str, Enum):
+    la_hikes = "la_hikes"
+    neighborhood_runs = "neighborhood_runs"
+    la_road_runners = "la_road_runners"
+    oregon_hikes = "oregon_hikes"
+
+
 class ActivityFile(BaseModel):
     filename: str
     activity_type: ActivityTypeEnum
@@ -52,15 +59,9 @@ class ActivityFile(BaseModel):
         orm_mode = True
 
 
-class ActivityCollectionEnum(str, Enum):
-    la_hikes = "la_hikes"
-    neighborhood_runs = "neighborhood_runs"
-    la_road_runners = "la_road_runners"
-    oregon_hikes = "oregon_hikes"
-
-
 class ActivityFilePatch(BaseModel):
     activity_collection: Optional[ActivityCollectionEnum]
+    activity_type: Optional[ActivityTypeEnum]
 
     class Config:
         orm_mode = True

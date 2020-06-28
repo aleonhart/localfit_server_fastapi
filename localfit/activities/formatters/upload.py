@@ -1,6 +1,6 @@
 # local
 from localfit import schemas
-from localfit.db.crud import update_activity
+from localfit.activities.crud import update_activity
 from localfit.utilities import convert_semicircles_to_degrees, convert_lat_long_to_location_name, \
     localize_datetime_to_utc_for_storage
 
@@ -108,11 +108,12 @@ def _get_activity_type(fit_file):
 
 def get_activity_data(file, fit_file):
     activity_data = _get_activity_session_data(fit_file)
+    activity_type = _get_activity_type(fit_file)
     activity_data.update({
         "filename": file.filename.split(".")[0],
-        "activity_type": _get_activity_type(fit_file),
+        "activity_type": activity_type,
         "is_manually_entered": False,
-        "activity_collection": "uncategorized",
+        "activity_collection": "neighborhood_runs" if activity_type == "run" else "uncategorized",
 
     })
 

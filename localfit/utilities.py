@@ -1,9 +1,27 @@
 # stdlib
-from datetime import datetime
+from datetime import datetime, timedelta
+from decimal import Decimal
 
 # 3rd Party
 from geopy.geocoders import Nominatim
 import pytz
+
+
+def bitswap_ant_timestamp_to_unix_timestamp(timestamp_32, timestamp_16):
+    """
+    To save space, FIT stores timestamps in two formats:
+    timestamp: 32 bits, stored as seconds since ANT epoch
+    timestamp_16: 16-bit "suffix" since last timestamp
+
+    In order to convert a timestamp_16 16-bit suffix into a
+    32-bit ANT timestamp, you must bitswap the last 16 bits.
+
+    """
+    DIFF_ANT_EPOCH_UNIX_EPOC_SECONDS = 631065600
+    timestamp_32 += (timestamp_16 - (timestamp_32 & 0xFFFF)) & 0xFFFF
+    ant_timestamp = datetime.fromtimestamp(timestamp_32, tz=pytz.UTC)
+    unix_timestamp = ant_timestamp + timedelta(seconds=DIFF_ANT_EPOCH_UNIX_EPOC_SECONDS)
+    return unix_timestamp
 
 
 def calculate_geographic_midpoint(list_of_coordinates):
@@ -93,3 +111,21 @@ def format_datetime_for_display(dt):
     """
     return dt.strftime("%A, %B %d, %Y, %I:%M %p")
 
+
+def format_distance_for_display(meters, decimals=2):
+    """
+    Sorry! I'm from the USA. I'm defaulting
+    everything to miles.
+
+    Calculates meters to miles.
+    """
+
+    return round(Decimal(meters * Decimal(0.000621371192)), decimals)
+
+
+def format_duration_for_display(seconds):
+    """
+    ANT FIT files record time durations in seconds.
+    Format this to HH:MM:SS for the front end to display
+    """
+    return str(timedelta(seconds=int(seconds)))

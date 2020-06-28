@@ -129,3 +129,10 @@ def format_duration_for_display(seconds):
     Format this to HH:MM:SS for the front end to display
     """
     return str(timedelta(seconds=int(seconds)))
+
+
+def get_date_obj_from_string(date_str):
+    """
+    Expects string format "%Y-%m-%d"
+    """
+    return datetime.strptime(date_str, "%Y-%m-%d").date()

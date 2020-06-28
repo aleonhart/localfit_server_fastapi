@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 # local
 from localfit.monitor import models
 from localfit.monitor import schemas
-from localfit.utilities import localize_datetime_for_display
+from localfit.utilities import localize_datetime_for_display, get_date_obj_from_string
 
 
 def get_step_data_by_date(db: Session, step_date: date):
@@ -88,3 +88,10 @@ def create_monitor_data(db: Session,
     db.commit()
     db.refresh(monitor_file_obj)
     return monitor_file_obj
+
+
+def get_monitor_steps_by_date(start_date, end_date, db: Session):
+    return db.query(models.StepData
+                    ).filter(models.StepData.step_date >= start_date, models.StepData.step_date <= end_date
+                    ).order_by(models.StepData.step_date.asc()
+                    ).offset(0).limit(366).all()

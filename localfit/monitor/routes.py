@@ -11,8 +11,7 @@ from sqlalchemy.orm import Session
 from localfit.monitor import crud
 from localfit.db.database import get_db
 from localfit.monitor import schemas
-from localfit.monitor.formatters import upload
-
+from localfit.monitor.formatters import upload, steps
 
 monitor_router = APIRouter()
 
@@ -39,7 +38,6 @@ async def upload_monitor_file(file: UploadFile = File(...), db: Session = Depend
                                     stress_data_list=stress_data_list)
 
 
-# # /monitor/steps/?start_date=${start_date}&end_date=${end_date}
-# @monitor_router.get("/monitor/steps/", response_model=List[schemas.StepData])
-# def get_activities_recent(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-#     return crud.get_activities_recent(db, skip=skip, limit=limit)
+@monitor_router.get("/monitor/steps/")
+def get_steps_by_date(start_date, end_date, db: Session = Depends(get_db)):
+    return steps.format_steps_for_display(start_date, end_date, db)

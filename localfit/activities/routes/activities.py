@@ -32,5 +32,7 @@ def get_activities_top(skip: int = 0, limit: int = 10, db: Session = Depends(get
 
 @activities_router.get("/activities/collection/{collection_name}/")
 def get_activity_collection(collection_name: str = Path(..., title="The name of the collection of activities"),
-                       skip: int = 0, limit: int = 1000, db: Session = Depends(get_db)):
+                            skip: int = 0,
+                            limit: int = 1000,
+                            db: Session = Depends(get_db)):
     return format_activity_maps_by_collection(db, collection_name=collection_name, skip=skip, limit=limit)

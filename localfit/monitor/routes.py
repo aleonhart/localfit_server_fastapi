@@ -1,5 +1,7 @@
 # stdlib
 from typing import List
+from calendar import monthrange
+from datetime import datetime
 
 # 3rd Party
 from fastapi import Depends, File, UploadFile
@@ -41,3 +43,21 @@ async def upload_monitor_file(file: UploadFile = File(...), db: Session = Depend
 @monitor_router.get("/monitor/steps/")
 def get_steps_by_date(start_date, end_date, db: Session = Depends(get_db)):
     return steps.format_steps_for_display(start_date, end_date, db)
+
+
+@monitor_router.get("/monitor/steps/goal/")
+def get_step_goal_by_month(year: int = None, month: int = None, db: Session = Depends(get_db)):
+    """
+
+    data = StepData.objects.filter(date__gte=f"{now.year}-{now.month}-01", date__lte=f"{now.year}-{now.month}-{days_in_month}")
+    serializer = StepGoalSerializer(data, context={'days_in_month': days_in_month}, many=True)
+    return Response(serializer.data)
+
+    """
+    now = datetime.now()
+    year = year or now.year
+    month = month or now.month
+
+    _, days_in_month = monthrange(year, month)
+    return steps.get_percent_step_goal_achievement(year, month, days_in_month, db)
+

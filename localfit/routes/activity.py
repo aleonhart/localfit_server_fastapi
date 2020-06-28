@@ -1,5 +1,4 @@
 # stdlib
-from typing import List
 
 # 3rd Party
 from fastapi import Depends, File, UploadFile, Path
@@ -8,7 +7,7 @@ from fitparse import FitFile
 from sqlalchemy.orm import Session
 
 # local
-from localfit.db import crud
+from localfit.activities import crud
 from localfit.db.database import get_db
 from localfit import schemas
 from localfit.activities.formatters.upload import get_activity_data, get_activity_record_data, update_activity_metadata

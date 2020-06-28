@@ -67,6 +67,12 @@ class ActivityFilePatch(BaseModel):
 
 
 class ActivityListDisplay(BaseModel):
+    """
+    Some values change type when converted for display.
+    This schema represents the display types.
+
+    Eg. A Decimal timespan saved in the database is displayed as a string.
+    """
     filename: str
     activity_type: ActivityTypeEnum
     is_manually_entered: bool

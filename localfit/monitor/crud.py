@@ -63,7 +63,7 @@ def create_monitor_data(db: Session,
     # For example
     # If your device is UTC+1, your file will write a "day" from 1:00 AM - 12:59 AM
     # If your device is UTC+8, your file will write a "day" from 8:00 AM - 7:59 AM
-    local_date = localize_datetime_for_display(step_data['step_date'])
+    local_date = localize_datetime_for_display(step_data['step_date']).date()
 
     steps_query = db.query(models.StepData).filter_by(step_date=local_date)
 
@@ -74,8 +74,8 @@ def create_monitor_data(db: Session,
         db.add(steps_obj)
     else:
         steps_obj = steps_query.one()
-        if steps_obj.steps < step_data.steps:
-            steps_obj.steps = step_data.steps
+        if steps_obj.steps < step_data['steps']:
+            steps_obj.steps = step_data['steps']
             db.add(steps_obj)
 
     stress_objs = []
@@ -95,3 +95,14 @@ def get_monitor_steps_by_date(start_date, end_date, db: Session):
                     ).filter(models.StepData.step_date >= start_date, models.StepData.step_date <= end_date
                     ).order_by(models.StepData.step_date.asc()
                     ).offset(0).limit(366).all()
+
+
+def get_monitor_step_goal(year, month, days_in_month, db: Session):
+    start_date_obj = get_date_obj_from_string(f"{year}-{month}-01")
+    end_date_obj = get_date_obj_from_string(f"{year}-{month}-{days_in_month}")
+
+    return db.query(models.StepData
+             ).filter(models.StepData.step_date >= start_date_obj,
+                      models.StepData.step_date <= end_date_obj
+             ).order_by(models.StepData.step_date.asc()
+             ).offset(0).limit(31).all()

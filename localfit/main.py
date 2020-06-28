@@ -7,7 +7,7 @@ import uvicorn
 from localfit.db.database import create_all
 from localfit.routes.activities import activities_router
 from localfit.routes.activity import activity_router
-from localfit.routes.monitor import monitor_router
+from localfit.monitor.routes import monitor_router
 
 
 def get_application() -> FastAPI:

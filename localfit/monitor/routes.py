@@ -1,4 +1,5 @@
 # stdlib
+from typing import List
 
 # 3rd Party
 from fastapi import Depends, File, UploadFile
@@ -36,3 +37,9 @@ async def upload_monitor_file(file: UploadFile = File(...), db: Session = Depend
                                     metabolic_rate_data_list=metabolic_rate_data_list,
                                     step_data=step_data,
                                     stress_data_list=stress_data_list)
+
+
+# # /monitor/steps/?start_date=${start_date}&end_date=${end_date}
+# @monitor_router.get("/monitor/steps/", response_model=List[schemas.StepData])
+# def get_activities_recent(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+#     return crud.get_activities_recent(db, skip=skip, limit=limit)

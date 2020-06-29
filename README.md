@@ -34,7 +34,7 @@ http://127.0.0.1:8005
 
 ## Activities
 - [View All Activities](#view-all-activities)
-- [View Activities Calendar]
+- [View Activities Calendar](#view-activities-calendar)
 - [View Top Activities by Distance](#view-top-activities-by-distance)
 - [View Activities Subset by Collection](#view-activities-subset-by-collection)
 
@@ -175,7 +175,8 @@ r.json()
 ```
 
 ### View Activities Calendar
-- GET `/activities/calendar/?year={year}`
+- GET `/activities/calendar/?year={year}`  
+Without query parameters, it will default to the current year.
 ```python
 import requests
 r = requests.get("http://127.0.0.1:8005/activities/calendar/")
@@ -198,7 +199,29 @@ r.json()
     ]
 }
 ```
+With query paramters, it will use the year provided.
+```python
+import requests
+r = requests.get("http://127.0.0.1:8005/activities/calendar/?year=2020")
 
+r
+<Response [200]>
+
+r.json()
+{
+    'start_date': '2020-01-01',
+    'end_date': '2020-12-30',
+    'last_year': '2019',
+    'next_year': '2021',
+    'activities': [
+        {
+            'activity_type': 'run',
+            'date': '2020-01-02',
+            'filename': 'AAAA1111'
+        }
+    ]
+}
+```
 ### View Top Activities by Distance
 - GET `/activities/top/`
 ```python
@@ -298,7 +321,7 @@ r.json()
 }
 ```
 ### View Step Goal Achievement by Month
-- GET `/monitor/steps/goal/?year={year}&month={month}`
+- GET `/monitor/steps/goal/?year={year}&month={month}`  
 Without query parameters, it will default to the current month and year.
 ```python
 import requests

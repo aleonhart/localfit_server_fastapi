@@ -75,15 +75,14 @@ def format_activities_calendar(year, db, skip, limit):
     activities = [
         {
             "activity_type": r.activity_type,
-            "start_time_utc": r.start_time_utc,
             "date": r.start_time_utc.date(),
             "filename": r.filename
         } for r in records
     ]
     return {
-        'start_date': datetime.strptime(year, "%Y"),
+        'start_date': (datetime.strptime(year, "%Y")).strftime("%Y-%m-%d"),
         'end_date': (datetime.strptime(year, "%Y") + timedelta(days=364)).strftime("%Y-%m-%d"),
         'last_year': (datetime.strptime(year, "%Y") + timedelta(days=-365)).strftime("%Y"),
-        'next_year': (datetime.strptime(year, "%Y") + timedelta(days=365)).strftime("%Y"),
+        'next_year': (datetime.strptime(year, "%Y") + timedelta(days=366)).strftime("%Y"),
         'activities': activities,
     }

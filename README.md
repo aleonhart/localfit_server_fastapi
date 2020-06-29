@@ -34,6 +34,7 @@ http://127.0.0.1:8005
 
 ## Activities
 - [View All Activities](#view-all-activities)
+- [View Activities Calendar]
 - [View Top Activities by Distance](#view-top-activities-by-distance)
 - [View Activities Subset by Collection](#view-activities-subset-by-collection)
 
@@ -171,6 +172,31 @@ r.json()
         'start_location': 'Empire State Building, New York, NY'
     }
 ]
+```
+
+### View Activities Calendar
+- GET `/activities/calendar/?year={year}`
+```python
+import requests
+r = requests.get("http://127.0.0.1:8005/activities/calendar/")
+
+r
+<Response [200]>
+
+r.json()
+{
+    'start_date': '2020-01-01',
+    'end_date': '2020-12-30',
+    'last_year': '2019',
+    'next_year': '2021',
+    'activities': [
+        {
+            'activity_type': 'run',
+            'date': '2020-01-02',
+            'filename': 'AAAA1111'
+        }
+    ]
+}
 ```
 
 ### View Top Activities by Distance

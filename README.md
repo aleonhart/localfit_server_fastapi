@@ -11,6 +11,11 @@ Upload and view ANT-compatible fitness data.
 - Python 3.8
 - SQLite
 
+## Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
 ## Local Server Start
 ```bash
 python localfit_fastapi/main.py --reload

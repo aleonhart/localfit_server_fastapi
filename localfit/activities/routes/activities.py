@@ -1,4 +1,5 @@
 # stdlib
+from datetime import datetime
 from typing import List
 
 # 3rd Party
@@ -32,8 +33,9 @@ def get_activities_top(skip: int = 0, limit: int = 10, db: Session = Depends(get
 
 
 @activities_router.get("/activities/calendar/")
-def get_activities_calendar(skip: int = 0, limit: int = 1000, db: Session = Depends(get_db)):
-    year = "2020"
+def get_activities_calendar(year: str = None, skip: int = 0, limit: int = 1000, db: Session = Depends(get_db)):
+    now = datetime.now()
+    year = year or str(now.year)
     return format_activities_calendar(year, db, skip, limit)
 
 

@@ -4,7 +4,7 @@
 - [API Contract](#api-contract)
 
 # Description
-Upload and view ANT-compatible fitness data.
+This is a FastAPI server allowing upload, management, and display of ANT-compatible fitness data.
 
 # Local Development
 ## Prerequisites

@@ -1,8 +1,10 @@
+# stdlib
+from datetime import datetime, timedelta
+
 # 3rd Party
 
 # local
-from localfit.activities.crud import (get_activity_by_filename, get_activity_records_by_filename,
-                                      get_activity_maps_by_collection, get_activities_top)
+from localfit.activities import crud
 from localfit.utilities import (localize_datetime_for_display, format_datetime_for_display,
                                 format_distance_for_display, calculate_geographic_midpoint,
                                 format_duration_for_display)
@@ -13,7 +15,7 @@ def get_activity_metadata_by_filename(db, filename):
     TODO: Support secondary activities
 
     """
-    activity = get_activity_by_filename(db, filename)
+    activity = crud.get_activity_by_filename(db, filename)
     return {
         'activity_type': activity.activity_type,
         'start_time_utc': format_datetime_for_display(localize_datetime_for_display(activity.start_time_utc)),
@@ -26,7 +28,7 @@ def get_activity_metadata_by_filename(db, filename):
 
 
 def get_activity_map_by_filename(db, filename):
-    records = get_activity_records_by_filename(db, filename)
+    records = crud.get_activity_records_by_filename(db, filename)
 
     # not every record has GPS data. remove all null GPS records.
     records = list(filter((None).__ne__, records))
@@ -42,7 +44,7 @@ def get_activity_map_by_filename(db, filename):
 
 
 def format_activity_maps_by_collection(db, collection_name, skip, limit):
-    maps = get_activity_maps_by_collection(db, collection_name=collection_name, skip=skip, limit=limit)
+    maps = crud.get_activity_maps_by_collection(db, collection_name=collection_name, skip=skip, limit=limit)
 
     total_coordinates = []
     activities = []
@@ -61,9 +63,27 @@ def format_activity_maps_by_collection(db, collection_name, skip, limit):
 
 
 def get_formatted_top_activities(db, skip, limit):
-    activities = get_activities_top(db, skip, limit)
+    activities = crud.get_activities_top(db, skip, limit)
     for activity in activities:
         activity.total_distance = format_distance_for_display(activity.total_distance)
         activity.total_elapsed_time = format_duration_for_display(activity.total_elapsed_time)
     return activities
 
+
+def format_activities_calendar(year, db, skip, limit):
+    records = crud.get_activities_calendar(year, db, skip, limit)
+    activities = [
+        {
+            "activity_type": r.activity_type,
+            "start_time_utc": r.start_time_utc,
+            "date": r.start_time_utc.date(),
+            "filename": r.filename
+        } for r in records
+    ]
+    return {
+        'start_date': datetime.strptime(year, "%Y"),
+        'end_date': (datetime.strptime(year, "%Y") + timedelta(days=364)).strftime("%Y-%m-%d"),
+        'last_year': (datetime.strptime(year, "%Y") + timedelta(days=-365)).strftime("%Y"),
+        'next_year': (datetime.strptime(year, "%Y") + timedelta(days=365)).strftime("%Y"),
+        'activities': activities,
+    }

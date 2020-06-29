@@ -9,7 +9,8 @@ from sqlalchemy.orm import Session
 from localfit.activities import crud
 from localfit.db.database import get_db
 from localfit import schemas
-from localfit.activities.formatters.retrieval import format_activity_maps_by_collection, get_formatted_top_activities
+from localfit.activities.formatters.retrieval import (format_activity_maps_by_collection, get_formatted_top_activities,
+                                                      format_activities_calendar)
 
 
 activities_router = APIRouter()
@@ -28,6 +29,12 @@ def get_activities_recent(skip: int = 0, limit: int = 100, db: Session = Depends
 @activities_router.get("/activities/top/", response_model=List[schemas.ActivityListDisplay])
 def get_activities_top(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return get_formatted_top_activities(db, skip=skip, limit=limit)
+
+
+@activities_router.get("/activities/calendar/")
+def get_activities_calendar(skip: int = 0, limit: int = 1000, db: Session = Depends(get_db)):
+    year = "2020"
+    return format_activities_calendar(year, db, skip, limit)
 
 
 @activities_router.get("/activities/collection/{collection_name}/")

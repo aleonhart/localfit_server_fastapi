@@ -1,3 +1,8 @@
+# Table of Contents
+- [Description](#description)
+- [Local Development](#local-development)
+- [API Contract](#api-contract)
+
 # Description
 Upload and view ANT-compatible fitness data.
 

@@ -66,7 +66,11 @@ def get_activity_maps_by_collection(db: Session, collection_name: schemas.Activi
             {
                 "lat": record.position_lat_deg,
                 "lng": record.position_long_deg
-            } for record in db.query(models.ActivityRecord).filter(models.ActivityRecord.file == file).all()
+            } for record in db.query(models.ActivityRecord
+                                     ).filter(models.ActivityRecord.file == file,
+                                              models.ActivityRecord.position_lat_deg.isnot(None),
+                                              models.ActivityRecord.position_long_deg.isnot(None)
+                                              ).all()
         ]
         maps.append(records)
     return maps
@@ -76,10 +80,15 @@ def get_activity_by_filename(db: Session, filename: str):
     return db.query(models.ActivityFile).filter_by(filename=filename).one()
 
 
-def get_activity_records_by_filename(db: Session, filename: str):
+def get_activity_gps_records_by_filename(db: Session, filename: str):
     return [
         {
             "lat": r.position_lat_deg,
             "lng": r.position_long_deg
-        } for r in db.query(models.ActivityRecord).join(models.ActivityFile).filter(models.ActivityFile.filename == filename).all()
+        } for r in db.query(models.ActivityRecord
+                            ).join(models.ActivityFile
+                            ).filter(models.ActivityFile.filename == filename,
+                                     models.ActivityRecord.position_lat_deg.isnot(None),
+                                     models.ActivityRecord.position_long_deg.isnot(None)
+                                     ).all()
     ]

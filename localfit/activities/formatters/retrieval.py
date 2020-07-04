@@ -28,16 +28,13 @@ def get_activity_metadata_by_filename(db, filename):
 
 
 def get_activity_map_by_filename(db, filename):
-    records = crud.get_activity_records_by_filename(db, filename)
-
-    # not every record has GPS data. remove all null GPS records.
-    records = list(filter((None).__ne__, records))
+    gps_records = crud.get_activity_gps_records_by_filename(db, filename)
 
     # get geographic midpoint to center the map
-    midpoint_lat_deg, midpoint_long_deg = calculate_geographic_midpoint(records)
+    midpoint_lat_deg, midpoint_long_deg = calculate_geographic_midpoint(gps_records)
 
     return {
-        'activitydata': records,
+        'activitydata': gps_records,
         'midpoint_lat_deg': midpoint_lat_deg,
         'midpoint_long_deg': midpoint_long_deg
     }
@@ -75,7 +72,7 @@ def format_activities_calendar(year, db, skip, limit):
     activities = [
         {
             "activity_type": r.activity_type,
-            "date": r.start_time_utc.date(),
+            "date": localize_datetime_for_display(r.start_time_utc).date(),
             "filename": r.filename
         } for r in records
     ]

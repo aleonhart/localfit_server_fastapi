@@ -36,6 +36,12 @@ async def update_activity(activity_file: schemas.ActivityFilePatch,
     return update_activity_metadata(db, filename, activity_file)
 
 
+@activity_router.delete("/activities/{filename}/")
+async def delete_activity(filename: str = Path(..., title="The filename of a single activity"),
+                           db: Session = Depends(get_db)):
+    return crud.delete_activity(db, filename)
+
+
 @activity_router.get("/activities/{filename}/")
 async def get_activity_metadata(filename: str = Path(..., title="The filename of a single activity"),
                                 db: Session = Depends(get_db)):

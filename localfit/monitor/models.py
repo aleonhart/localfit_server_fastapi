@@ -16,10 +16,10 @@ class MonitorFile(Base):
     filename = Column(String, unique=True)
 
     # relationships
-    monitor_heart_rate = relationship("HeartRateData", back_populates="file")
-    monitor_meta_rate = relationship("MetabolicRateData", back_populates="file")
-    monitor_step = relationship("StepData", back_populates="file")
-    monitor_stress = relationship("StressData", back_populates="file")
+    monitor_heart_rate = relationship("HeartRateData", cascade="all,delete", back_populates="file")
+    monitor_meta_rate = relationship("MetabolicRateData", cascade="all,delete", back_populates="file")
+    monitor_step = relationship("StepData", cascade="all,delete", back_populates="file")
+    monitor_stress = relationship("StressData", cascade="all,delete", back_populates="file")
 
 
 class HeartRateData(Base):

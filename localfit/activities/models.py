@@ -34,8 +34,22 @@ class ActivityFile(Base):
     start_position_long_deg = Column(Numeric(precision=9, scale=6))
     start_location = Column(String)
 
-    # relationships
-    activity_record = relationship("ActivityRecord", back_populates="file")
+    """
+    RELATIONSHIPS
+    
+    backref: 
+        establishes relationship: ActivityFile.activity_records 
+        establishes relationship: ActivityRecord.activity_file
+    
+    cascade:
+        save-update: Default behavior. Indicates that when an object is placed into a Session via Session.add(), all 
+            the objects associated with it via this relationship() should also be added to that same Session.
+        merge: Default behavior. Indicates that the Session.merge() operation should be propagated from a parent that’s 
+            the subject of the Session.merge() call down to referred objects. 
+        delete: Indicates that when a “parent” object is marked for deletion, its related “child” objects should also 
+        be marked for deletion.
+    """
+    activity_records = relationship("ActivityRecord", backref="activity_file", cascade="save-update, merge, delete")
 
     # avg_heart_rate = models.IntegerField(null=True)
     # max_heart_rate = models.IntegerField(null=True)
@@ -46,7 +60,6 @@ class ActivityRecord(Base):
 
     id = Column(Integer, primary_key=True)
     file_id = Column(Integer, ForeignKey("activity_file.id"))
-    file = relationship("ActivityFile", back_populates="activity_record")
     timestamp_utc = Column(DateTime, nullable=False)
     heart_rate = Column(Integer)                                # BPM
     position_lat_sem = Column(Integer)                          # semicircles

@@ -130,7 +130,32 @@ r.json()
     'midpoint_long_deg': 73.985702
 }
 ```
-- GET `/activities/<filename>/heartrate/` (view heart rate data)
+
+## View Single Activity Heart Rate Data
+- GET `/activities/<filename>/heart/`
+```python
+import requests
+r = requests.get("http://127.0.0.1:8005/activities/AAABBB11/heart/")
+
+r
+<Response [200]>
+
+r.json()
+{
+    'start_date': '2020-06-01T12:41:13-07:00',
+    'end_date': '2020-06-01T12:42:55-07:00',
+    'heart_rate': [
+        {
+            't': '2020-06-01T12:41:13-07:00',
+            'y': 75
+        },
+        {
+            't': '2020-06-01T12:42:55-07:00',
+            'y': 79
+        },
+    ]
+}
+```
 
 ## Activities
 ### View All Activities
@@ -345,4 +370,3 @@ r.json()
 
 Coming Soon!
 - Stress
-- Heart Rate

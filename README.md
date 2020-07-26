@@ -27,6 +27,7 @@ http://127.0.0.1:8005
 # API Contract
 ## Single Activity
 - [Upload a Single Activity](#upload-a-single-activity)
+- [Delete a Single Activity](#delete-a-single-activity)
 - [View Single Activity Metadata](#view-single-activity-metadata)
 - [Update Single Activity Metadata](#update-single-activity-metadata)
 - [View Single Activity GPS Data](#view-single-activity-gps-data)
@@ -73,6 +74,17 @@ const submitForm = (contentType, data) => {
     formData.append("file", file);
     submitForm("multipart/form-data", formData);
   };
+```
+### Delete a Single Activity
+DELETE `/activities/<filename>/`
+```python
+import requests
+r = requests.delete("http://127.0.0.1:8005/activities/AAABBB11/")
+
+r
+<Response [204]>
+
+# No r.json() because the response contains no entity
 ```
 
 ### View Single Activity Metadata
@@ -224,7 +236,7 @@ r.json()
     ]
 }
 ```
-With query paramters, it will use the year provided.
+With query parameters, it will use the year provided.
 ```python
 import requests
 r = requests.get("http://127.0.0.1:8005/activities/calendar/?year=2020")

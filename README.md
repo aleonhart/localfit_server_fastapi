@@ -30,7 +30,7 @@ http://127.0.0.1:8005
 - [View Single Activity Metadata](#view-single-activity-metadata)
 - [Update Single Activity Metadata](#update-single-activity-metadata)
 - [View Single Activity GPS Data](#view-single-activity-gps-data)
-- View Single Activity Heart Rate Data
+- [View Single Activity Heart Rate Data](#view-single-activity-heart-rate-data)
 
 ## Activities
 - [View All Activities](#view-all-activities)

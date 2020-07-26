@@ -59,12 +59,22 @@ def format_activity_maps_by_collection(db, collection_name, skip, limit):
     }
 
 
-def get_formatted_top_activities(db, skip, limit):
-    activities = crud.get_activities_top(db, skip, limit)
+def _format_activities_for_display(activities):
     for activity in activities:
+        activity.start_time_utc = format_datetime_for_display(localize_datetime_for_display(activity.start_time_utc))
         activity.total_distance = format_distance_for_display(activity.total_distance)
         activity.total_elapsed_time = format_duration_for_display(activity.total_elapsed_time)
     return activities
+
+
+def get_formatted_recent_activities(db, skip, limit):
+    activities = crud.get_activities_recent(db, skip=skip, limit=limit)
+    return _format_activities_for_display(activities)
+
+
+def get_formatted_top_activities(db, skip, limit):
+    activities = crud.get_activities_top(db, skip, limit)
+    return _format_activities_for_display(activities)
 
 
 def format_activities_calendar(year, db, skip, limit):

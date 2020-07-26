@@ -94,6 +94,7 @@ def _get_activity_type(fit_file):
         (1, 1): "treadmill",  # Run: Treadmill
         (4, 15): "elliptical",  # Fitness Equipment: Elliptical
         (11, 0): "walk",  # walk
+        (11, 27): "indoor_walk",  # indoor walking ???
         (10, 43): "yoga",  # yoga
         (4, 16): "stair",  # Fitness Equipment: Stair Climbing
         (10, 26): "cardio",  # Training: Cardio (Beat Saber)

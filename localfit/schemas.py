@@ -7,12 +7,13 @@ from enum import Enum
 
 # 3rd Party
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Any
 
 
 class ActivityTypeEnum(str, Enum):
     yoga = "yoga"
     walk = "walk"
+    indoor_walk = "indoor_walk"
     run = "run"
     treadmill = "treadmill"
     stairmaster = "stairmaster"
@@ -27,6 +28,8 @@ class ActivityCollectionEnum(str, Enum):
     neighborhood_runs = "neighborhood_runs"
     la_road_runners = "la_road_runners"
     oregon_hikes = "oregon_hikes"
+    ali_walks_cc = "ali_walks_cc"
+    ali_walks_sm = "ali_walks_sm"
 
 
 class ActivityFile(BaseModel):
@@ -78,7 +81,7 @@ class ActivityListDisplay(BaseModel):
     activity_type: ActivityTypeEnum
     is_manually_entered: bool
     activity_collection: str
-    start_time_utc: datetime
+    start_time_utc: str
     total_elapsed_time: str
     total_timer_time: Decimal
     total_distance: Optional[Decimal]

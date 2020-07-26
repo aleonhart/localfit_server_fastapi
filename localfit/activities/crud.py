@@ -73,7 +73,7 @@ def get_activity_maps_by_collection(db: Session, collection_name: schemas.Activi
                 "lat": record.position_lat_deg,
                 "lng": record.position_long_deg
             } for record in db.query(models.ActivityRecord
-                                     ).filter(models.ActivityRecord.file == file,
+                                     ).filter(models.ActivityRecord.file_id == file.id,
                                               models.ActivityRecord.position_lat_deg.isnot(None),
                                               models.ActivityRecord.position_long_deg.isnot(None)
                                               ).all()

@@ -40,6 +40,22 @@ def get_activity_map_by_filename(db, filename):
     }
 
 
+def get_activity_heart_rate_by_filename(db, filename):
+    records = crud.get_activity_heart_rate_by_filename(db, filename)
+    heart_rates = [
+        {
+            "t": localize_datetime_for_display(record.timestamp_utc),
+            "y": record.heart_rate
+        } for record in records
+    ]
+
+    return {
+        "start_date": heart_rates[0]["t"],
+        "end_date": heart_rates[-1]["t"],
+        "heart_rate": heart_rates
+    }
+
+
 def format_activity_maps_by_collection(db, collection_name, skip, limit):
     maps = crud.get_activity_maps_by_collection(db, collection_name=collection_name, skip=skip, limit=limit)
 

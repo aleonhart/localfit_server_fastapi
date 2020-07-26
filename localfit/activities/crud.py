@@ -98,3 +98,12 @@ def get_activity_gps_records_by_filename(db: Session, filename: str):
                                      models.ActivityRecord.position_long_deg.isnot(None)
                                      ).all()
     ]
+
+
+def get_activity_heart_rate_by_filename(db: Session, filename: str):
+    return db.query(models.ActivityRecord
+                    ).join(models.ActivityFile
+                    ).filter(models.ActivityFile.filename == filename,
+                             models.ActivityRecord.heart_rate.isnot(None),
+                             ).order_by(models.ActivityRecord.timestamp_utc.desc()
+                                        ).all()

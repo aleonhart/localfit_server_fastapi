@@ -11,7 +11,8 @@ from localfit.activities import crud
 from localfit.db.database import get_db
 from localfit import schemas
 from localfit.activities.formatters.upload import get_activity_data, get_activity_record_data, update_activity_metadata
-from localfit.activities.formatters.retrieval import get_activity_metadata_by_filename, get_activity_map_by_filename
+from localfit.activities.formatters.retrieval import (get_activity_metadata_by_filename, get_activity_map_by_filename,
+                                                      get_activity_heart_rate_by_filename)
 
 
 activity_router = APIRouter()
@@ -52,3 +53,9 @@ async def get_activity_metadata(filename: str = Path(..., title="The filename of
 async def get_activity_map(filename: str = Path(..., title="The filename of a single activity"),
                            db: Session = Depends(get_db)):
     return get_activity_map_by_filename(db, filename)
+
+
+@activity_router.get("/activities/{filename}/heart/")
+async def get_activity_heart_rate(filename: str = Path(..., title="The filename of a single activity"),
+                           db: Session = Depends(get_db)):
+    return get_activity_heart_rate_by_filename(db, filename)

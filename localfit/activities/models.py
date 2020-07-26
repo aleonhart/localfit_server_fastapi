@@ -33,6 +33,8 @@ class ActivityFile(Base):
     start_position_lat_deg = Column(Numeric(precision=8, scale=6))
     start_position_long_deg = Column(Numeric(precision=9, scale=6))
     start_location = Column(String)
+    avg_heart_rate = Column(Integer)
+    max_heart_rate = Column(Integer)
 
     """
     RELATIONSHIPS
@@ -50,9 +52,6 @@ class ActivityFile(Base):
         be marked for deletion.
     """
     activity_records = relationship("ActivityRecord", backref="activity_file", cascade="save-update, merge, delete")
-
-    # avg_heart_rate = models.IntegerField(null=True)
-    # max_heart_rate = models.IntegerField(null=True)
 
 
 class ActivityRecord(Base):

@@ -49,7 +49,7 @@ class ActivityFile(Base):
         merge: Default behavior. Indicates that the Session.merge() operation should be propagated from a parent that’s 
             the subject of the Session.merge() call down to referred objects. 
         delete: Indicates that when a “parent” object is marked for deletion, its related “child” objects should also 
-        be marked for deletion.
+            be marked for deletion.
     """
     activity_records = relationship("ActivityRecord", backref="activity_file", cascade="save-update, merge, delete")
 

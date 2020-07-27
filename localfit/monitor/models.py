@@ -15,11 +15,25 @@ class MonitorFile(Base):
     id = Column(Integer, primary_key=True)
     filename = Column(String, unique=True)
 
-    # relationships
-    monitor_heart_rate = relationship("HeartRateData", cascade="all,delete", back_populates="file")
-    monitor_meta_rate = relationship("MetabolicRateData", cascade="all,delete", back_populates="file")
-    monitor_step = relationship("StepData", cascade="all,delete", back_populates="file")
-    monitor_stress = relationship("StressData", cascade="all,delete", back_populates="file")
+    """
+    RELATIONSHIPS
+
+    backref: 
+        establishes relationship: MonitorFile.<name>_records 
+        establishes relationship: <Name>Data.monitor_file
+
+    cascade:
+        save-update: Default behavior. Indicates that when an object is placed into a Session via Session.add(), all 
+            the objects associated with it via this relationship() should also be added to that same Session.
+        merge: Default behavior. Indicates that the Session.merge() operation should be propagated from a parent that’s 
+            the subject of the Session.merge() call down to referred objects. 
+        delete: Indicates that when a “parent” object is marked for deletion, its related “child” objects should also 
+            be marked for deletion.
+    """
+    heart_rate_records = relationship("HeartRateData", backref="monitor_file", cascade="save-update, merge, delete")
+    metabolic_rate_records = relationship("MetabolicRateData", backref="monitor_file", cascade="save-update, merge, delete")
+    stress_records = relationship("StressData", backref="monitor_file", cascade="save-update, merge, delete")
+    step_records = relationship("StepData", backref="monitor_file", cascade="save-update, merge, delete")
 
 
 class HeartRateData(Base):
@@ -34,9 +48,6 @@ class HeartRateData(Base):
     timestamp_utc = Column(DateTime, nullable=False, unique=True)
     heart_rate = Column(Integer)
 
-    # relationships
-    file = relationship("MonitorFile", back_populates="monitor_heart_rate")
-
 
 class MetabolicRateData(Base):
     """
@@ -50,9 +61,6 @@ class MetabolicRateData(Base):
     timestamp_utc = Column(DateTime, nullable=False, unique=True)
     resting_metabolic_rate = Column(Integer)  # KCAL
 
-    # relationships
-    file = relationship("MonitorFile", back_populates="monitor_meta_rate")
-
 
 class StepData(Base):
     """
@@ -63,11 +71,8 @@ class StepData(Base):
 
     id = Column(Integer, primary_key=True)
     file_id = Column(Integer, ForeignKey("monitor_file.id"))
-    step_date = Column(Date, nullable=False, unique=True)
+    timestamp_utc = Column(DateTime, nullable=False, unique=True)
     steps = Column(Integer)
-
-    # relationships
-    file = relationship("MonitorFile", back_populates="monitor_step")
 
 
 class StressData(Base):
@@ -79,8 +84,5 @@ class StressData(Base):
 
     id = Column(Integer, primary_key=True)
     file_id = Column(Integer, ForeignKey("monitor_file.id"))
-    stress_level_time_utc = Column(DateTime, nullable=False, unique=True)
-    stress_level_value = Column(Integer)
-
-    # relationships
-    file = relationship("MonitorFile", back_populates="monitor_stress")
+    timestamp_utc = Column(DateTime, nullable=False, unique=True)
+    stress_level = Column(Integer)

@@ -5,15 +5,6 @@ from localfit.utilities import (convert_semicircles_to_degrees, convert_lat_long
     localize_datetime_to_utc_for_storage, bitswap_ant_timestamp_to_unix_timestamp)
 
 
-STRESS_FIELDS = [
-    'stress_level_value'
-]
-
-
-STRESS_TIME_FIELDS = [
-    'stress_level_time'
-]
-
 TIME_FIELDS = [
     'timestamp'
 ]
@@ -28,10 +19,10 @@ def parse_stress_data_from_monitor_file(fit_file):
     for row in fit_file.get_messages('stress_level'):
         record = {}
         for field in row:
-            if field.name in STRESS_FIELDS:
-                record[field.name] = field.value
-            if field.name in STRESS_TIME_FIELDS:
-                record[f'{field.name}_utc'] = localize_datetime_to_utc_for_storage(field.value)
+            if field.name == 'stress_level_value':
+                record['stress_level'] = field.value
+            if field.name == 'stress_level_time':
+                record['timestamp_utc'] = localize_datetime_to_utc_for_storage(field.value)
         records.append(record)
     return records
 
@@ -77,7 +68,7 @@ def parse_step_data_from_monitor_file(fit_file):
     There is no consistency across ANT files about how many times the step data will be written per file or per day.
     The value is not consistently located in a single column or associated with a single key.
     If multiple ANT files are created in a single day (for example if activities are started and stopped), the step data
-    for the day will be spread across multiple files.
+    for the day will be spread across multiple monitor files.
     Step data values are not cumulative; they state the number of steps taken until that point in time.
 
     Example:
@@ -89,18 +80,22 @@ def parse_step_data_from_monitor_file(fit_file):
     The simplest way to get the accurate step count for the day is to grab every record until no more records are found,
     and to keep only the largest one found. The last value found in a file is not guaranteed to be the largest.
 
-    If multiple files exist for a single day, comparison must be done across the files associated with that day to e
-    nsure that the value we have is the largest.
+    If multiple files exist for a single day, comparison must be done across the files associated with that day to
+    ensure that the value taken is the largest.
     """
     record = {}
+    timestamp_utc = None
     for row in fit_file.get_messages('monitoring'):
         for field in row:
             if field.name in TIME_FIELDS:
-                if not record.get('date'):
-                    record['date'] = localize_datetime_to_utc_for_storage(field.value)
+                timestamp_utc = localize_datetime_to_utc_for_storage(field.value)
+                if not record.get('timestamp_utc'):
+                    record['timestamp_utc'] = timestamp_utc
             if field.name in ['steps']:
-                # step data is a mess to parse. the largest value is the final value.
+                # step data is a mess to parse. the largest value is the correct value.
                 if field.value > record.get(field.name, 0):
                     record[field.name] = field.value
-
-    return {"steps": record['steps'], "step_date": record['date']}
+                    if timestamp_utc:
+                        record['timestamp_utc'] = timestamp_utc
+                        timestamp_utc = None
+    return record

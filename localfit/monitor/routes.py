@@ -10,6 +10,7 @@ from fitparse import FitFile
 from sqlalchemy.orm import Session
 
 # local
+from localfit import utilities
 from localfit.monitor import crud
 from localfit.db.database import get_db
 from localfit.monitor import schemas
@@ -17,12 +18,8 @@ from localfit.monitor.formatters import upload, steps
 
 monitor_router = APIRouter()
 
-"""
-Functions supporting singular operations on the /monitor/ API
-"""
 
-
-@monitor_router.post("/monitors/", response_model=schemas.MonitorFile)
+@monitor_router.post("/monitor/", response_model=schemas.MonitorFile)
 async def upload_monitor_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
     fit_file = FitFile(file.file)
     monitor_file = schemas.MonitorFile(filename=file.filename.split(".")[0])
@@ -42,7 +39,14 @@ async def upload_monitor_file(file: UploadFile = File(...), db: Session = Depend
 
 @monitor_router.get("/monitor/steps/")
 def get_steps_by_date(start_date, end_date, db: Session = Depends(get_db)):
-    return steps.format_steps_for_display(start_date, end_date, db)
+    local_start_datetime = utilities.localize_datetime_for_display(
+        utilities.localize_datetime_to_utc_for_storage(
+            utilities.get_datetime_obj_from_string(start_date)))
+
+    local_end_datetime = utilities.localize_datetime_for_display(
+        utilities.localize_datetime_to_utc_for_storage(
+            utilities.get_datetime_obj_from_string(end_date)))
+    return steps.format_steps_for_display(local_start_datetime, local_end_datetime, db)
 
 
 @monitor_router.get("/monitor/steps/goal/")

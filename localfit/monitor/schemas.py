@@ -37,7 +37,7 @@ class MetabolicRateData(BaseModel):
 
 class StepData(BaseModel):
     file_id: int
-    step_date: date
+    timestamp_utc: date
     steps: int
 
     class Config:
@@ -46,8 +46,8 @@ class StepData(BaseModel):
 
 class StressData(BaseModel):
     file_id: int
-    stress_level_time_utc: datetime
-    stress_level_value: int
+    timestamp_utc: datetime
+    stress_level: int
 
     class Config:
         orm_mode = True

@@ -9,14 +9,13 @@ def format_steps_for_display(start_date, end_date, db):
     records = crud.get_monitor_steps_by_date(start_date, end_date, db)
 
     return {
-        "start_date": start_date,
-        "end_date": end_date,
+        "start_date": start_date.date(),
+        "end_date": end_date.date(),
         "steps": [
             {
-                "t": record.step_date,
+                "t": record.timestamp_utc.date(),
                 "y": record.steps
-            } for record in records
-        ]
+            } for record in records],
     }
 
 

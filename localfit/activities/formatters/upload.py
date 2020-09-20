@@ -119,3 +119,4 @@ def get_activity_data(file, fit_file):
     })
 
     return schemas.ActivityFile(**activity_data)
+

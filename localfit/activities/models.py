@@ -38,11 +38,11 @@ class ActivityFile(Base):
 
     """
     RELATIONSHIPS
-
+    
     backref: 
         establishes relationship: ActivityFile.activity_records 
         establishes relationship: ActivityRecord.activity_file
-
+    
     cascade:
         save-update: Default behavior. Indicates that when an object is placed into a Session via Session.add(), all 
             the objects associated with it via this relationship() should also be added to that same Session.
@@ -60,16 +60,16 @@ class ActivityRecord(Base):
     id = Column(Integer, primary_key=True)
     file_id = Column(Integer, ForeignKey("activity_file.id"))
     timestamp_utc = Column(DateTime, nullable=False)
-    heart_rate = Column(Integer)  # BPM
-    position_lat_sem = Column(Integer)  # semicircles
-    position_long_sem = Column(Integer)  # semicircles
-    position_lat_deg = Column(Numeric(precision=8, scale=6))  # XX.XXXXXX degrees
-    position_long_deg = Column(Numeric(precision=9, scale=6))  # XXX.XXXXXX degrees
-    distance = Column(Numeric(precision=8, scale=2))  # XXX,XXX.XX  meters, 100mi is 160,934m
-    altitude = Column(Numeric(precision=5, scale=1))  # X,XXX.X   meters, Mt. Everest is 8,850m high
-    speed = Column(Integer)  # XX     meters/second, Usain Bolt's top speed is 12.27m/s
-    cadence = Column(Integer)  # RPM
+    heart_rate = Column(Integer)                                # BPM
+    position_lat_sem = Column(Integer)                          # semicircles
+    position_long_sem = Column(Integer)                         # semicircles
+    position_lat_deg = Column(Numeric(precision=8, scale=6))    #      XX.XXXXXX degrees
+    position_long_deg = Column(Numeric(precision=9, scale=6))   #     XXX.XXXXXX degrees
+    distance = Column(Numeric(precision=8, scale=2))            # XXX,XXX.XX  meters, 100mi is 160,934m
+    altitude = Column(Numeric(precision=5, scale=1))            #   X,XXX.X   meters, Mt. Everest is 8,850m high
+    speed = Column(Integer)                                     #      XX     meters/second, Usain Bolt's top speed is 12.27m/s
+    cadence = Column(Integer)                                   # RPM
     fractional_cadence = Column(Numeric(precision=5, scale=1))  # RPM
-    enhanced_altitude = Column(Numeric(precision=5, scale=1))  # X,XXX.X   meters
-    enhanced_speed = Column(Numeric(precision=5, scale=3))  # XX.XXX meters/second
+    enhanced_altitude = Column(Numeric(precision=5, scale=1))   #   X,XXX.X   meters
+    enhanced_speed = Column(Numeric(precision=5, scale=3))      #      XX.XXX meters/second
 

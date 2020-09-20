@@ -109,4 +109,3 @@ def format_activities_calendar(year, db, skip, limit):
         'next_year': (datetime.strptime(year, "%Y") + timedelta(days=366)).strftime("%Y"),
         'activities': activities,
     }
-

@@ -45,4 +45,3 @@ def get_activity_collection(collection_name: str = Path(..., title="The name of 
                             limit: int = 1000,
                             db: Session = Depends(get_db)):
     return format_activity_maps_by_collection(db, collection_name=collection_name, skip=skip, limit=limit)
-

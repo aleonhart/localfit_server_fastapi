@@ -59,3 +59,4 @@ async def get_activity_map(filename: str = Path(..., title="The filename of a si
 async def get_activity_heart_rate(filename: str = Path(..., title="The filename of a single activity"),
                            db: Session = Depends(get_db)):
     return get_activity_heart_rate_by_filename(db, filename)
+

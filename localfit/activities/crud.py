@@ -107,3 +107,4 @@ def get_activity_heart_rate_by_filename(db: Session, filename: str):
                              models.ActivityRecord.heart_rate.isnot(None),
                              ).order_by(models.ActivityRecord.timestamp_utc.desc()
                                         ).all()
+

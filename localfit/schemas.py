@@ -107,4 +107,3 @@ class ActivityRecord(BaseModel):
     fractional_cadence: Optional[Decimal]
     enhanced_altitude: Optional[Decimal]
     enhanced_speed: Optional[Decimal]
-

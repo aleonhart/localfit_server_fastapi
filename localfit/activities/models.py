@@ -72,4 +72,3 @@ class ActivityRecord(Base):
     fractional_cadence = Column(Numeric(precision=5, scale=1))  # RPM
     enhanced_altitude = Column(Numeric(precision=5, scale=1))   #   X,XXX.X   meters
     enhanced_speed = Column(Numeric(precision=5, scale=3))      #      XX.XXX meters/second
-

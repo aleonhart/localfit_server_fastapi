@@ -1,21 +1,22 @@
-DROP TABLE IF EXISTS activity_session;
-DROP TABLE IF EXISTS activity_file;
+DROP TABLE IF EXISTS interest_points;
 
-CREATE TABLE activity_file (
-	id INTEGER NOT NULL,
-	filename VARCHAR NOT NULL,
-	activity_type VARCHAR NOT NULL,
-	is_manually_entered INTEGER DEFAULT 0,
-	activity_collection VARCHAR,
-	start_time_utc DATETIME NOT NULL,
+
+CREATE TABLE abbreviation (
+	abbrev_id INTEGER NOT NULL,
+	abbrev VARCHAR NOT NULL,
+	name VARCHAR NOT NULL,
 	PRIMARY KEY (id),
-	UNIQUE (filename)
+	UNIQUE (abbreviation)
 );
 
-CREATE TABLE activity_session (
-	id INTEGER NOT NULL,
-	file_id INTEGER,
-	start_time_utc DATETIME NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY(file_id) REFERENCES activity_file (id)
+
+CREATE TABLE interest_point (
+	interest_point_id INTEGER NOT NULL,
+	name VARCHAR NOT NULL,
+    location_name VARCHAR NOT NULL,
+    state VARCHAR NOT NULL,
+    gps_lat DECIMAL NOT NULL,
+    gps_long DECIMAL NOT NULL,
+	FOREIGN KEY(abbrev) REFERENCES abbreviation (abbrev)
+	PRIMARY KEY (interest_point_id),
 );

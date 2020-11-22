@@ -11,3 +11,24 @@ venv/
 
 # SQLite
 localfit.db
+
+# Mac
+.DS_Store
+
+# IDE
+.idea/
+__pycache__/
+
+# Pyenv
+venv/
+.python-version
+
+# Django
+*/migrations/
+
+# Python
+*.pyc
+
+
+
+

@@ -46,12 +46,18 @@ http://127.0.0.1:8005
 ## Single Activity
 ### Upload a Single Activity
 POST `/activities/`
+Single Upload Via Python
 ```python
 import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 m = MultipartEncoder(fields={'file': ('filename', open('/Users/YOU/path/to/ACTIVITY/AAABBB11.FIT', 'rb'), 'multipart/form-data')})
 r = requests.post("http://127.0.0.1:8005/activities/", data=m, headers={'Content-Type': m.content_type}) 
 ```
+Bulk Upload Via Python
+```python
+for f in `ls /Users/YOU/path/to/ACTIVITY/*.FIT`;do echo "import requests;from requests_toolbelt.multipart.encoder import MultipartEncoder; m = MultipartEncoder(fields={'file': ('filename', open('$f', 'rb'), 'multipart/form-data')}); r = requests.post('http://127.0.0.1:8005/activities/', data=m, headers={'Content-Type': m.content_type});"|python; echo $f;done
+```
+Single Upload Via JS
 ```javascript
 const submitForm = (contentType, data) => {
     axios({

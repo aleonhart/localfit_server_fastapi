@@ -46,6 +46,12 @@ http://127.0.0.1:8005
 ## Single Activity
 ### Upload a Single Activity
 POST `/activities/`
+```python
+import requests
+from requests_toolbelt.multipart.encoder import MultipartEncoder
+m = MultipartEncoder(fields={'file': ('filename', open('/Users/YOU/path/to/ACTIVITY/AAABBB11.FIT', 'rb'), 'multipart/form-data')})
+r = requests.post("http://127.0.0.1:8005/activities/", data=m, headers={'Content-Type': m.content_type}) 
+```
 ```javascript
 const submitForm = (contentType, data) => {
     axios({

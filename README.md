@@ -45,7 +45,7 @@ http://127.0.0.1:8005
 
 ## Single Activity
 ### Upload a Single Activity
-POST `/activities/`
+POST `/activities/`  
 Single Upload Via Python
 ```python
 import requests

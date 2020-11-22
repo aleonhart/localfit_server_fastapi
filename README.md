@@ -55,7 +55,7 @@ r = requests.post("http://127.0.0.1:8005/activities/", data=m, headers={'Content
 ```
 Bulk Upload Via Python
 ```python
-for f in `ls /Users/YOU/path/to/ACTIVITY/*.FIT`;do echo "import requests;from requests_toolbelt.multipart.encoder import MultipartEncoder; m = MultipartEncoder(fields={'file': ('filename', open('$f', 'rb'), 'multipart/form-data')}); r = requests.post('http://127.0.0.1:8005/activities/', data=m, headers={'Content-Type': m.content_type});"|python; echo $f;done
+for f in `ls /Users/YOU/path/to/ACTIVITY/*.FIT`;do FILENAME=$(ls $f|cut -d"/" -f7);echo "import requests;from requests_toolbelt.multipart.encoder import MultipartEncoder; m = MultipartEncoder(fields={'file': ('$FILENAME', open('$f', 'rb'), 'multipart/form-data')}); r = requests.post('http://127.0.0.1:8005/activities/', data=m, headers={'Content-Type': m.content_type});r"|python; echo $f;done
 ```
 Single Upload Via JS
 ```javascript

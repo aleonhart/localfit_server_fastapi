@@ -23,7 +23,7 @@ Functions supporting bulk operations on the /activities/ API
 
 
 @activities_router.get("/activities/", response_model=List[schemas.ActivityListDisplay])
-def get_activities_recent(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def get_activities_recent(skip: int = 0, limit: int = 10000, db: Session = Depends(get_db)):
     return get_formatted_recent_activities(db, skip=skip, limit=limit)
 
 

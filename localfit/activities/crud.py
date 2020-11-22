@@ -42,7 +42,7 @@ def delete_activity(db: Session, filename: str):
     db.commit()
 
 
-def get_activities_recent(db: Session, skip: int = 0, limit: int = 100):
+def get_activities_recent(db: Session, skip: int = 0, limit: int = 10000):
     return db.query(models.ActivityFile).order_by(models.ActivityFile.start_time_utc.desc()).offset(skip).limit(limit).all()
 
 

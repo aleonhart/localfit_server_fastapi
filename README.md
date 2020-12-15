@@ -39,6 +39,9 @@ http://127.0.0.1:8005
 - [View Top Activities by Distance](#view-top-activities-by-distance)
 - [View Activities Subset by Collection](#view-activities-subset-by-collection)
 
+## Monitor
+- [Upload a Single Monitor File](#upload-a-single-monitor-file)
+
 ## Steps
 - [View Steps by Day](#view-steps-by-day)
 - [View Step Goal Achievement by Month](#view-step-goal-achievement-by-month)
@@ -340,6 +343,20 @@ r.json()
         ],
     ]
 }
+```
+## Monitor Files
+### Upload a Single Monitor File
+POST `/monitor/`
+Single Upload Via Python
+```python
+import requests
+from requests_toolbelt.multipart.encoder import MultipartEncoder
+m = MultipartEncoder(fields={'file': ('filename', open('/Users/YOU/path/to/MONITOR/AAABBB11.FIT', 'rb'), 'multipart/form-data')})
+r = requests.post("http://127.0.0.1:8005/monitor/", data=m, headers={'Content-Type': m.content_type})
+```
+Bulk Upload Via Python
+```python
+for f in `ls /Users/YOU/path/to/MONITOR/*.FIT`;do FILENAME=$(ls $f|cut -d"/" -f7);echo "import requests;from requests_toolbelt.multipart.encoder import MultipartEncoder; m = MultipartEncoder(fields={'file': ('$FILENAME', open('$f', 'rb'), 'multipart/form-data')}); r = requests.post('http://127.0.0.1:8005/monitor/', data=m, headers={'Content-Type': m.content_type});r"|python; echo $f;done
 ```
 
 ## Steps

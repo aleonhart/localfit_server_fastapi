@@ -58,8 +58,9 @@ def _handle_step_data(db, monitor_file_obj, step_data):
         step_obj = db.query(models.StepData).filter(models.StepData.timestamp_utc >= step_date_start,
                                      models.StepData.timestamp_utc < step_date_end).one()
 
-        if step_data['steps'] > step_obj.steps:
-            step_obj.steps = step_data['steps']
+        steps = step_obj.steps or 0
+        if step_data.get('steps', 0) > steps:
+            step_obj.steps = step_data.get('steps', 0)
             db.add(step_obj)
     except NoResultFound as e:
         step_data.update(file_id=monitor_file_obj.id)

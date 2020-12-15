@@ -13,6 +13,7 @@ from typing import Optional, Any
 class ActivityTypeEnum(str, Enum):
     yoga = "yoga"
     walk = "walk"
+    cycling = "cycling"
     indoor_walk = "indoor_walk"
     run = "run"
     treadmill = "treadmill"

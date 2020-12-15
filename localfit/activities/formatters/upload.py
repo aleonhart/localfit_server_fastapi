@@ -92,6 +92,7 @@ def _get_activity_type(fit_file):
     activity_type_map = {
         (1, 0): "run",  # Run: generic
         (1, 1): "treadmill",  # Run: Treadmill
+        (2, 0): "cycling",  # Cycling outside
         (4, 15): "elliptical",  # Fitness Equipment: Elliptical
         (11, 0): "walk",  # walk
         (11, 27): "indoor_walk",  # indoor walking ???

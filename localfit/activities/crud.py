@@ -107,3 +107,13 @@ def get_activity_heart_rate_by_filename(db: Session, filename: str):
                              models.ActivityRecord.heart_rate.isnot(None),
                              ).order_by(models.ActivityRecord.timestamp_utc.desc()
                                         ).all()
+
+
+def get_db_monthly_activities_totals(year, db: Session, skip: int = 0, limit: int = 1000):
+    start_date_obj = get_date_obj_from_string(f"{year}-01-01")
+    end_date_obj = get_date_obj_from_string(f"{year}-12-31")
+
+    return db.query(models.ActivityFile
+                    ).filter(models.ActivityFile.start_time_utc >= start_date_obj,
+                      models.ActivityFile.start_time_utc <= end_date_obj
+                    ).offset(skip).limit(limit).all()

@@ -1,7 +1,9 @@
 # stdlib
+from decimal import Decimal
 from datetime import datetime, timedelta
 
 # 3rd Party
+import pandas as pd
 
 # local
 from localfit.activities import crud
@@ -109,3 +111,19 @@ def format_activities_calendar(year, db, skip, limit):
         'next_year': (datetime.strptime(year, "%Y") + timedelta(days=366)).strftime("%Y"),
         'activities': activities,
     }
+
+
+def format_monthly_activities_totals(year, db, skip, limit):
+    records = crud.get_db_monthly_activities_totals(year, db, skip, limit)
+
+    # initialize all months to 0 distance
+    acts = {i: 0 for i in range(1, 13)}
+
+    for r in records:
+        date = localize_datetime_for_display(r.start_time_utc).month
+        distance = acts[date]
+        acts[date] = distance + r.total_distance
+
+    for i in range(1, 13):
+        acts[i] = format_distance_for_display(acts[i])
+    return acts

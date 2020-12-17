@@ -11,7 +11,8 @@ from localfit.activities import crud
 from localfit.db.database import get_db
 from localfit import schemas
 from localfit.activities.formatters.retrieval import (format_activity_maps_by_collection, get_formatted_top_activities,
-                                                      format_activities_calendar, get_formatted_recent_activities)
+                                                      format_activities_calendar, get_formatted_recent_activities,
+                                                      format_monthly_activities_totals)
 
 
 activities_router = APIRouter()
@@ -45,3 +46,10 @@ def get_activity_collection(collection_name: str = Path(..., title="The name of 
                             limit: int = 1000,
                             db: Session = Depends(get_db)):
     return format_activity_maps_by_collection(db, collection_name=collection_name, skip=skip, limit=limit)
+
+
+@activities_router.get("/activities/totals/")
+def get_monthly_activities_totals(year: str = None, skip: int = 0, limit: int = 1000, db: Session = Depends(get_db)):
+    now = datetime.now()
+    year = year or str(now.year)
+    return format_monthly_activities_totals(year, db, skip, limit)

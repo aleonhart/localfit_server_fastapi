@@ -119,11 +119,10 @@ def format_monthly_activities_totals(year, db, skip, limit):
     # initialize all months to 0 distance
     acts = {i: 0 for i in range(1, 13)}
 
+    # add up distances from all activities each month
     for r in records:
         date = localize_datetime_for_display(r.start_time_utc).month
-        distance = acts[date]
-        acts[date] = distance + r.total_distance
+        acts[date] = acts[date] + r.total_distance
 
-    for i in range(1, 13):
-        acts[i] = format_distance_for_display(acts[i])
-    return acts
+    # convert values to miles
+    return {i: format_distance_for_display(acts[i]) for i in acts}
